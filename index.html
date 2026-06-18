@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#1B2B4B"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Doc Mgmt"/>
+<title>Doc Mgmt System</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── TOKENS ───────────────────────────────────────────────── */
+:root {
+  --navy:    #1B2B4B;
+  --navy-2:  #243660;
+  --slate:   #4A5568;
+  --amber:   #F6A623;
+  --amber-d: #D4881A;
+  --green:   #22C55E;
+  --red:     #EF4444;
+  --bg:      #F0F2F7;
+  --surface: #FFFFFF;
+  --border:  #DDE1EA;
+  --text:    #1A202C;
+  --muted:   #718096;
+  --radius:  14px;
+  --shadow:  0 2px 12px rgba(27,43,75,0.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ── APP SHELL ─────────────────────────────────────────────── */
+#app{display:flex;flex-direction:column;min-height:100vh;}
+.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeIn .22s ease;}
+.screen.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+.hdr{background:var(--navy);color:#fff;padding:env(safe-area-inset-top,16px) 20px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.hdr-back{background:rgba(255,255,255,.12);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;}
+.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;letter-spacing:.3px;flex:1;}
+.hdr-badge{background:var(--amber);color:var(--navy);font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.5px;}
+
+/* ── CONTENT ────────────────────────────────────────────────── */
+.content{flex:1;padding:20px 16px 100px;overflow-y:auto;}
+.content.no-pad{padding:0;}
+
+/* ── CARDS ──────────────────────────────────────────────────── */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
+.card-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+
+/* ── HOME ────────────────────────────────────────────────────── */
+.home-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);padding:28px 20px 24px;color:#fff;}
+.home-hero h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:4px;}
+.home-hero p{font-size:13px;opacity:.7;margin-bottom:16px;}
+.hero-stats{display:flex;gap:16px;}
+.stat-box{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 16px;text-align:center;flex:1;}
+.stat-box span{display:block;font-size:22px;font-weight:700;color:var(--amber);}
+.stat-box small{font-size:11px;opacity:.7;}
+
+.main-menu{display:flex;flex-direction:column;gap:12px;padding:20px 16px;}
+.menu-btn{display:flex;align-items:center;gap:16px;background:var(--surface);border:none;border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;text-align:left;width:100%;transition:transform .1s,box-shadow .1s;}
+.menu-btn:active{transform:scale(.98);box-shadow:0 1px 4px rgba(27,43,75,.08);}
+.menu-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.menu-icon.blue{background:#EEF2FF;}
+.menu-icon.green{background:#F0FDF4;}
+.menu-icon.purple{background:#FAF5FF;}
+.menu-text strong{display:block;font-size:15px;font-weight:600;color:var(--text);}
+.menu-text span{font-size:12px;color:var(--muted);margin-top:2px;display:block;}
+.menu-arrow{margin-left:auto;color:var(--muted);font-size:18px;}
+
+/* ── SETUP ─────────────────────────────────────────────────── */
+.setup-wrap{padding:32px 20px;}
+.setup-logo{text-align:center;margin-bottom:32px;}
+.setup-logo h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-top:12px;}
+.setup-logo p{font-size:13px;color:var(--muted);margin-top:4px;}
+.logo-icon{width:70px;height:70px;background:var(--navy);border-radius:20px;display:inline-flex;align-items:center;justify-content:center;font-size:32px;}
+
+/* ── FORMS ──────────────────────────────────────────────────── */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--slate);margin-bottom:7px;}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:15px;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--navy);}
+.field textarea{resize:none;height:80px;}
+.field input[type=number]{-moz-appearance:textfield;}
+.field input[type=number]::-webkit-inner-spin-button{display:none;}
+
+.select-wrap{position:relative;}
+.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+
+/* search supplier */
+.supplier-search-wrap{position:relative;}
+.supplier-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--navy);border-radius:10px;max-height:200px;overflow-y:auto;z-index:200;box-shadow:var(--shadow);display:none;}
+.supplier-dropdown.open{display:block;}
+.supplier-option{padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);}
+.supplier-option:last-child{border-bottom:none;}
+.supplier-option:active{background:var(--bg);}
+.supplier-option mark{background:#FEF3C7;border-radius:3px;padding:0 2px;}
+
+/* type pills */
+.type-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.type-pill{border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;background:#fff;color:var(--slate);transition:all .15s;}
+.type-pill.selected{border-color:var(--navy);background:var(--navy);color:#fff;}
+
+/* file upload */
+.upload-area{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s;}
+.upload-area:active{border-color:var(--navy);}
+.upload-area p{font-size:13px;color:var(--muted);margin-top:8px;}
+.upload-buttons{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.upload-btn-opt{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:11px 14px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);}
+.upload-btn-opt:active{background:var(--border);}
+.file-preview{margin-top:12px;background:var(--bg);border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.file-preview img{width:44px;height:44px;object-fit:cover;border-radius:6px;}
+.file-preview .file-name{font-size:12px;color:var(--slate);word-break:break-all;flex:1;}
+.file-preview .remove-file{color:var(--red);font-size:18px;cursor:pointer;padding:4px;}
+
+/* ── BUTTONS ─────────────────────────────────────────────────── */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:11px;padding:15px 20px;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;width:100%;transition:transform .1s,opacity .15s;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:disabled{opacity:.5;}
+.btn-amber{background:var(--amber);color:var(--navy);}
+.btn-outline{background:transparent;border:2px solid var(--navy);color:var(--navy);}
+.btn-red{background:var(--red);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:9px;}
+.btn-row{display:flex;gap:10px;}
+.btn-row .btn{flex:1;}
+
+/* fixed bottom bar */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));z-index:99;}
+
+/* ── ENTRY SELECTION ──────────────────────────────────────────── */
+.entry-types{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
+.entry-type-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:28px 16px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;}
+.entry-type-btn:active{transform:scale(.97);}
+.entry-type-btn .icon{font-size:36px;}
+.entry-type-btn.sel{border-color:var(--navy);background:var(--navy);color:#fff;}
+
+/* ── REPORT / OLD ENTRIES ─────────────────────────────────────── */
+.filter-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.filter-chip{flex-shrink:0;border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:500;background:#fff;color:var(--slate);cursor:pointer;white-space:nowrap;}
+.filter-chip.active{border-color:var(--navy);background:var(--navy);color:#fff;}
+
+.filter-panel{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px;display:none;}
+.filter-panel.open{display:block;}
+.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.filter-row .field{margin-bottom:0;}
+
+.entry-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;border-left:4px solid var(--navy);}
+.entry-card.voucher{border-left-color:var(--amber);}
+.entry-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
+.entry-tag{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:3px 8px;border-radius:6px;}
+.entry-tag.inv{background:#EEF2FF;color:#3730A3;}
+.entry-tag.vou{background:#FEF3C7;color:#92400E;}
+.entry-card-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.entry-card-sub{font-size:12px;color:var(--muted);}
+.entry-card-amount{font-size:17px;font-weight:700;color:var(--navy);text-align:right;}
+.entry-card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.meta-pill{font-size:11px;background:var(--bg);border-radius:6px;padding:3px 8px;color:var(--slate);}
+.entry-card-about{font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;}
+
+/* ── MASTER DB ────────────────────────────────────────────────── */
+.master-list{list-style:none;}
+.master-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.master-item:last-child{border-bottom:none;}
+.master-item span{font-size:15px;}
+.master-item-del{color:var(--red);font-size:20px;cursor:pointer;padding:4px 8px;}
+
+/* ── SEND MODAL ───────────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px calc(24px + env(safe-area-inset-bottom,0px));width:100%;max-height:90vh;overflow-y:auto;}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 20px;}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
+
+/* send summary list */
+.send-entry{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.send-entry:last-child{border-bottom:none;}
+.send-entry input[type=checkbox]{width:20px;height:20px;accent-color:var(--navy);flex-shrink:0;margin-top:2px;}
+.send-entry-info{flex:1;}
+.send-entry-info strong{font-size:14px;}
+.send-entry-info span{display:block;font-size:12px;color:var(--muted);}
+.send-entry-amt{font-weight:700;font-size:14px;color:var(--navy);white-space:nowrap;}
+
+.email-check{display:flex;align-items:center;gap:10px;padding:10px 0;}
+.email-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--navy);}
+.email-check label{font-size:14px;}
+
+/* ── TOAST ────────────────────────────────────────────────────── */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{background:var(--green);}
+#toast.error{background:var(--red);}
+
+/* ── PROGRESS STEP ────────────────────────────────────────────── */
+.step-bar{display:flex;align-items:center;gap:0;padding:0 20px;margin-bottom:4px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);}
+.step-dot.done{background:var(--amber);}
+.step-line{flex:1;height:2px;background:rgba(255,255,255,.2);}
+.step-line.done{background:var(--amber);}
+
+/* ── SAVED INDICATOR ──────────────────────────────────────────── */
+.saved-badge{display:inline-flex;align-items:center;gap:5px;background:#F0FDF4;color:#166534;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;}
+
+/* ── SECTION DIVIDER ──────────────────────────────────────────── */
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.section-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+
+/* ── EMPTY STATE ──────────────────────────────────────────────── */
+.empty{text-align:center;padding:48px 20px;}
+.empty-icon{font-size:48px;margin-bottom:12px;}
+.empty h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.empty p{font-size:13px;color:var(--muted);}
+
+/* ── GOOGLE DRIVE LINK ──────────────────────────────────────────── */
+.drive-link{display:flex;align-items:center;gap:12px;background:#EEF2FF;border-radius:12px;padding:14px 16px;margin-bottom:16px;text-decoration:none;color:var(--navy);}
+.drive-link:active{opacity:.8;}
+.drive-link span{font-size:14px;font-weight:600;}
+.drive-link small{display:block;font-size:12px;color:var(--muted);}
+
+/* misc */
+.rupee::before{content:'₹ ';}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+.mt-8{margin-top:8px;}
+.mt-12{margin-top:12px;}
+.mt-16{margin-top:16px;}
+.text-center{text-align:center;}
+.text-muted{color:var(--muted);font-size:13px;}
+.hidden{display:none!important;}
+input[type=file]{display:none;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════════════════════════ SETUP SCREEN ══════════════════════════════ -->
+<div class="screen active" id="screen-setup">
+  <div class="content">
+    <div class="setup-wrap">
+      <div class="setup-logo">
+        <div class="logo-icon">📋</div>
+        <h2>Doc Mgmt System</h2>
+        <p>First-time setup — takes 30 seconds</p>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Your Details</div>
+        <div class="field">
+          <label>Your Full Name</label>
+          <input type="text" id="setup-name" placeholder="e.g. Tejas Pathak" autocomplete="name"/>
+        </div>
+        <div class="field">
+          <label>Your Email Address</label>
+          <input type="email" id="setup-email" placeholder="e.g. tejas@unitycpl.com" autocomplete="email"/>
+        </div>
+        <div class="field">
+          <label>Device / Phone Label</label>
+          <input type="text" id="setup-device" placeholder="e.g. Tejas - iPhone 15"/>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Google Integration</div>
+        <p class="text-muted" style="margin-bottom:14px;">This app uses Google Sheets as the shared database (accessible from all phones) and Google Drive for file storage. Enter the Sheets ID and Drive Folder ID below.</p>
+        <div class="field">
+          <label>Google Sheet ID</label>
+          <input type="text" id="setup-sheet-id" placeholder="Paste Sheet ID from URL"/>
+        </div>
+        <div class="field">
+          <label>Google Drive Folder ID</label>
+          <input type="text" id="setup-folder-id" placeholder="Paste Folder ID from URL"/>
+        </div>
+        <div class="field">
+          <label>Google API Key</label>
+          <input type="text" id="setup-api-key" placeholder="Your Google API key"/>
+        </div>
+        <p class="text-muted" style="margin-top:8px;font-size:11px;">📌 See setup guide at the bottom of this page for how to get these values.</p>
+      </div>
+
+      <button class="btn btn-primary" onclick="completeSetup()">Get Started →</button>
+
+      <div class="card mt-16">
+        <div class="card-label">Setup Guide</div>
+        <p class="text-muted" style="line-height:1.7;font-size:13px;">
+          1. Go to <strong>sheets.google.com</strong> and create a new spreadsheet named "DocMgmtSystem"<br>
+          2. Copy the Sheet ID from the URL (the long string between /d/ and /edit)<br>
+          3. Go to <strong>drive.google.com</strong>, create a folder named "DocMgmt Files"<br>
+          4. Open the folder and copy the ID from the URL<br>
+          5. Go to <strong>console.cloud.google.com</strong> → Enable Sheets API + Drive API → Create API Key<br>
+          6. Share your Sheet and Drive folder with "anyone with link can edit"<br><br>
+          ✅ All phones using this app will then share the same live database automatically.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ HOME SCREEN ══════════════════════════════ -->
+<div class="screen" id="screen-home">
+  <div class="home-hero">
+    <h1>Doc Mgmt System</h1>
+    <p id="home-user-label">Welcome back</p>
+    <div class="hero-stats">
+      <div class="stat-box"><span id="stat-today">0</span><small>Today</small></div>
+      <div class="stat-box"><span id="stat-unsent">0</span><small>Pending Send</small></div>
+      <div class="stat-box"><span id="stat-total">0</span><small>Total Records</small></div>
+    </div>
+  </div>
+  <div class="main-menu">
+    <button class="menu-btn" onclick="goTo('screen-entry-type')">
+      <div class="menu-icon blue">✏️</div>
+      <div class="menu-text"><strong>New Entry</strong><span>Create invoice or voucher</span></div>
+      <div class="menu-arrow">›</div>
+    </button>
+    <button class="menu-btn" onclick="goTo('screen-reports')">
+      <div class="menu-icon green">📊</div>
+      <div class="menu-text"><strong>Show Old Reports</strong><span>View, filter & search records</span></div>
+      <div class="menu-arrow">›</div>
+    </button>
+    <button class="menu-btn" onclick="goTo('screen-master')">
+      <div class="menu-icon purple">🗂️</div>
+      <div class="menu-text"><strong>Master Database</strong><span>Manage supplier list</span></div>
+      <div class="menu-arrow">›</div>
+    </button>
+    <a class="drive-link" id="drive-open-link" href="#" target="_blank" onclick="openDrive(event)">
+      <span style="font-size:24px;">📁</span>
+      <div><span>Open Google Drive Folder</span><small>View & manage uploaded files</small></div>
+      <span style="margin-left:auto;font-size:20px;">↗</span>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ ENTRY TYPE ══════════════════════════════ -->
+<div class="screen" id="screen-entry-type">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">‹</button>
+    <div class="hdr-title">New Entry</div>
+  </div>
+  <div class="content" style="padding-top:32px;">
+    <div class="text-center" style="margin-bottom:24px;">
+      <div class="section-title">What are you recording?</div>
+      <div class="section-sub">Choose the type of document</div>
+    </div>
+    <div class="entry-types">
+      <button class="entry-type-btn" onclick="startEntry('invoice')">
+        <div class="icon">🧾</div>
+        Invoice
+      </button>
+      <button class="entry-type-btn" onclick="startEntry('voucher')">
+        <div class="icon">📝</div>
+        Voucher
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ INVOICE FORM ══════════════════════════════ -->
+<div class="screen" id="screen-invoice">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">‹</button>
+    <div class="hdr-title">New Invoice</div>
+    <div class="hdr-badge">INVOICE</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="field">
+        <label>Supplier Name *</label>
+        <div class="supplier-search-wrap">
+          <input type="text" id="inv-supplier" placeholder="Search or scroll supplier..." autocomplete="off" oninput="filterSuppliers(this.value)" onfocus="showSuppliers()" onblur="hideSuppliers()"/>
+          <div class="supplier-dropdown" id="supplier-dropdown"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Invoice Amount (₹) *</label>
+        <input type="number" id="inv-amount" placeholder="0.00" inputmode="decimal"/>
+      </div>
+      <div class="field">
+        <label>Type *</label>
+        <div class="type-pills" id="inv-type-pills">
+          <div class="type-pill" onclick="selectType('inv',this,'Expense')">Expense</div>
+          <div class="type-pill" onclick="selectType('inv',this,'Raw Material')">Raw Material</div>
+          <div class="type-pill" onclick="selectType('inv',this,'Consumable')">Consumable</div>
+          <div class="type-pill" onclick="selectType('inv',this,'Spares')">Spares</div>
+          <div class="type-pill" onclick="selectType('inv',this,'Capital')">Capital</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>About / Description</label>
+        <input type="text" id="inv-about" placeholder="e.g. Steel rods for production line"/>
+      </div>
+      <div class="field">
+        <label>Attach File (optional)</label>
+        <div class="upload-area" id="inv-upload-area" onclick="triggerFileChoice('inv')">
+          <div style="font-size:32px;">📎</div>
+          <p>Tap to attach photo or file</p>
+        </div>
+        <div class="upload-buttons hidden" id="inv-upload-btns">
+          <div class="upload-btn-opt" onclick="capturePhoto('inv')">📷 &nbsp; Take Photo</div>
+          <div class="upload-btn-opt" onclick="choosePhoto('inv')">🖼️ &nbsp; Choose from Gallery</div>
+          <div class="upload-btn-opt" onclick="chooseFile('inv')">📂 &nbsp; Select File</div>
+          <div class="upload-btn-opt" style="color:var(--muted);" onclick="cancelUpload('inv')">✕ &nbsp; Cancel</div>
+        </div>
+        <div class="file-preview hidden" id="inv-file-preview">
+          <img id="inv-file-thumb" src="" alt="" style="display:none;"/>
+          <span class="file-name" id="inv-file-name"></span>
+          <span class="remove-file" onclick="removeFile('inv')">✕</span>
+        </div>
+        <input type="file" id="inv-file-cam" accept="image/*" capture="environment" onchange="handleFile(this,'inv')"/>
+        <input type="file" id="inv-file-gallery" accept="image/*" onchange="handleFile(this,'inv')"/>
+        <input type="file" id="inv-file-doc" onchange="handleFile(this,'inv')"/>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveEntry('invoice')" id="inv-save-btn">Save Invoice</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ VOUCHER FORM ══════════════════════════════ -->
+<div class="screen" id="screen-voucher">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">‹</button>
+    <div class="hdr-title">New Voucher</div>
+    <div class="hdr-badge" style="background:#F6A623;">VOUCHER</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="field">
+        <label>Person Name *</label>
+        <div class="select-wrap">
+          <select id="vou-person">
+            <option value="">— Select Person —</option>
+            <option>Milind Deodhar</option>
+            <option>Aniruddha Dharmadhikari</option>
+            <option>Meherzade Dubash</option>
+            <option>Tejas Pathak</option>
+            <option>Mahesh Pathak</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Voucher Amount (₹) *</label>
+        <input type="number" id="vou-amount" placeholder="0.00" inputmode="decimal"/>
+      </div>
+      <div class="field">
+        <label>Type *</label>
+        <div class="type-pills" id="vou-type-pills">
+          <div class="type-pill" onclick="selectType('vou',this,'Expense')">Expense</div>
+          <div class="type-pill" onclick="selectType('vou',this,'Raw Material')">Raw Material</div>
+          <div class="type-pill" onclick="selectType('vou',this,'Consumable')">Consumable</div>
+          <div class="type-pill" onclick="selectType('vou',this,'Spares')">Spares</div>
+          <div class="type-pill" onclick="selectType('vou',this,'Capital')">Capital</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>About / Description</label>
+        <input type="text" id="vou-about" placeholder="e.g. Travel to Pune client visit"/>
+      </div>
+      <div class="field">
+        <label>Attach File (optional)</label>
+        <div class="upload-area" id="vou-upload-area" onclick="triggerFileChoice('vou')">
+          <div style="font-size:32px;">📎</div>
+          <p>Tap to attach photo or file</p>
+        </div>
+        <div class="upload-buttons hidden" id="vou-upload-btns">
+          <div class="upload-btn-opt" onclick="capturePhoto('vou')">📷 &nbsp; Take Photo</div>
+          <div class="upload-btn-opt" onclick="choosePhoto('vou')">🖼️ &nbsp; Choose from Gallery</div>
+          <div class="upload-btn-opt" onclick="chooseFile('vou')">📂 &nbsp; Select File</div>
+          <div class="upload-btn-opt" style="color:var(--muted);" onclick="cancelUpload('vou')">✕ &nbsp; Cancel</div>
+        </div>
+        <div class="file-preview hidden" id="vou-file-preview">
+          <img id="vou-file-thumb" src="" alt="" style="display:none;"/>
+          <span class="file-name" id="vou-file-name"></span>
+          <span class="remove-file" onclick="removeFile('vou')">✕</span>
+        </div>
+        <input type="file" id="vou-file-cam" accept="image/*" capture="environment" onchange="handleFile(this,'vou')"/>
+        <input type="file" id="vou-file-gallery" accept="image/*" onchange="handleFile(this,'vou')"/>
+        <input type="file" id="vou-file-doc" onchange="handleFile(this,'vou')"/>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveEntry('voucher')" id="vou-save-btn">Save Voucher</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ AFTER SAVE ══════════════════════════════ -->
+<div class="screen" id="screen-after-save">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goTo('screen-home')">‹</button>
+    <div class="hdr-title">Entry Saved</div>
+  </div>
+  <div class="content" style="padding-top:40px;text-align:center;">
+    <div style="font-size:64px;margin-bottom:16px;">✅</div>
+    <div class="section-title" id="after-save-msg">Entry saved successfully</div>
+    <p class="text-muted" style="margin-top:8px;margin-bottom:32px;" id="after-save-sub">Stored locally. Upload when ready.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn btn-amber" onclick="goTo('screen-entry-type')">➕ &nbsp; Add Another Entry</button>
+      <button class="btn btn-primary" onclick="openSendModal()">📤 &nbsp; Upload &amp; Send Entries</button>
+      <button class="btn btn-outline" onclick="goTo('screen-home')">← &nbsp; Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ REPORTS SCREEN ══════════════════════════════ -->
+<div class="screen" id="screen-reports">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">‹</button>
+    <div class="hdr-title">Records</div>
+    <button class="hdr-back" onclick="toggleFilterPanel()" style="font-size:14px;width:auto;padding:0 10px;border-radius:8px;">Filter</button>
+  </div>
+  <div class="content">
+
+    <div class="filter-panel" id="filter-panel">
+      <div class="filter-row">
+        <div class="field">
+          <label>From Date</label>
+          <input type="date" id="filter-from"/>
+        </div>
+        <div class="field">
+          <label>To Date</label>
+          <input type="date" id="filter-to"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Type</label>
+        <div class="select-wrap">
+          <select id="filter-type">
+            <option value="">All Types</option>
+            <option>Expense</option><option>Raw Material</option><option>Consumable</option>
+            <option>Spares</option><option>Capital</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="field">
+          <label>Supplier</label>
+          <input type="text" id="filter-supplier" placeholder="Name..."/>
+        </div>
+        <div class="field">
+          <label>Person</label>
+          <input type="text" id="filter-person" placeholder="Name..."/>
+        </div>
+      </div>
+      <div class="btn-row mt-8">
+        <button class="btn btn-outline btn-sm" onclick="clearFilters()">Clear</button>
+        <button class="btn btn-primary btn-sm" onclick="applyFilters()">Apply</button>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-chip active" onclick="setDocFilter(this,'all')">All</div>
+      <div class="filter-chip" onclick="setDocFilter(this,'invoice')">Invoices</div>
+      <div class="filter-chip" onclick="setDocFilter(this,'voucher')">Vouchers</div>
+    </div>
+
+    <div id="reports-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ MASTER DB SCREEN ══════════════════════════════ -->
+<div class="screen" id="screen-master">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">‹</button>
+    <div class="hdr-title">Supplier Master</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="card-label">Add New Supplier</div>
+      <div class="field">
+        <input type="text" id="new-supplier-input" placeholder="Supplier / Company name"/>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addSupplier()">Add Supplier</button>
+    </div>
+    <div class="card">
+      <div class="card-label">Supplier List (<span id="supplier-count">0</span>)</div>
+      <ul class="master-list" id="master-supplier-list"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ SEND MODAL ══════════════════════════════ -->
+<div class="modal-overlay" id="send-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Upload &amp; Send Report</div>
+    <div class="modal-sub">Select entries to include in today's email report</div>
+
+    <div style="margin-bottom:20px;">
+      <div class="card-label">Today's Unsent Entries</div>
+      <div id="send-entries-list"></div>
+    </div>
+
+    <hr class="divider"/>
+
+    <div style="margin-bottom:20px;">
+      <div class="card-label">Send Report To</div>
+      <div class="email-check">
+        <input type="checkbox" id="em1" checked/>
+        <label for="em1">accounts@innotekproducts.com</label>
+      </div>
+      <div class="email-check">
+        <input type="checkbox" id="em2" checked/>
+        <label for="em2">ceo@innotekproducts.com</label>
+      </div>
+      <div class="email-check">
+        <input type="checkbox" id="em3" checked/>
+        <label for="em3">business@innotekproducts.com</label>
+      </div>
+      <div class="email-check">
+        <input type="checkbox" id="em4"/>
+        <label for="em4">accounts.finance@unitycpl.com</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="closeSendModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="sendReport()">📤 &nbsp; Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ TOAST ══════════════════════════════ -->
+<div id="toast"></div>
+
+</div><!-- #app -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   STATE & STORAGE
+═══════════════════════════════════════════════════════════════════ */
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; }},
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+};
+
+let state = {
+  user: LS.get('dms_user') || null,
+  suppliers: LS.get('dms_suppliers') || [],
+  entries: LS.get('dms_entries') || [],
+  screenStack: [],
+  currentType: null,
+  docFilter: 'all',
+  filters: {},
+  fileData: { inv: null, vou: null },
+};
+
+function saveLocal() {
+  LS.set('dms_suppliers', state.suppliers);
+  LS.set('dms_entries', state.entries);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════════ */
+function goTo(id, pushHistory = true) {
+  const current = document.querySelector('.screen.active');
+  if (current && pushHistory) state.screenStack.push(current.id);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'screen-home') updateHomeStats();
+  if (id === 'screen-reports') renderReports();
+  if (id === 'screen-master') renderMaster();
+}
+
+function goBack() {
+  if (state.screenStack.length) {
+    goTo(state.screenStack.pop(), false);
+  } else {
+    goTo('screen-home', false);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SETUP
+═══════════════════════════════════════════════════════════════════ */
+function completeSetup() {
+  const name = document.getElementById('setup-name').value.trim();
+  const email = document.getElementById('setup-email').value.trim();
+  const device = document.getElementById('setup-device').value.trim();
+  const sheetId = document.getElementById('setup-sheet-id').value.trim();
+  const folderId = document.getElementById('setup-folder-id').value.trim();
+  const apiKey = document.getElementById('setup-api-key').value.trim();
+
+  if (!name || !email || !device) {
+    showToast('Please fill your name, email and device label', 'error'); return;
+  }
+  state.user = { name, email, device, sheetId, folderId, apiKey };
+  LS.set('dms_user', state.user);
+  showToast('Setup complete! Welcome ' + name, 'success');
+  goTo('screen-home', false);
+}
+
+function openDrive(e) {
+  if (!state.user?.folderId) { e.preventDefault(); showToast('No Drive folder set yet','error'); return; }
+  document.getElementById('drive-open-link').href =
+    'https://drive.google.com/drive/folders/' + state.user.folderId;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HOME STATS
+═══════════════════════════════════════════════════════════════════ */
+function updateHomeStats() {
+  const today = todayStr();
+  document.getElementById('home-user-label').textContent =
+    state.user ? 'Welcome, ' + state.user.name + ' · ' + state.user.device : 'Welcome back';
+  document.getElementById('stat-today').textContent =
+    state.entries.filter(e => e.date === today).length;
+  document.getElementById('stat-unsent').textContent =
+    state.entries.filter(e => !e.sent && e.date === today).length;
+  document.getElementById('stat-total').textContent = state.entries.length;
+}
+
+function todayStr() {
+  return new Date().toISOString().slice(0,10);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ENTRY FLOW
+═══════════════════════════════════════════════════════════════════ */
+function startEntry(type) {
+  state.currentType = type;
+  state.fileData[type === 'invoice' ? 'inv' : 'vou'] = null;
+  clearForm(type === 'invoice' ? 'inv' : 'vou');
+  goTo('screen-' + type);
+}
+
+function clearForm(p) {
+  if (p === 'inv') {
+    document.getElementById('inv-supplier').value = '';
+    document.getElementById('inv-amount').value = '';
+    document.getElementById('inv-about').value = '';
+    document.querySelectorAll('#inv-type-pills .type-pill').forEach(x => x.classList.remove('selected'));
+  } else {
+    document.getElementById('vou-person').value = '';
+    document.getElementById('vou-amount').value = '';
+    document.getElementById('vou-about').value = '';
+    document.querySelectorAll('#vou-type-pills .type-pill').forEach(x => x.classList.remove('selected'));
+  }
+  cancelUpload(p);
+  removeFile(p);
+}
+
+function selectType(prefix, el, val) {
+  document.querySelectorAll('#' + prefix + '-type-pills .type-pill').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  el.dataset.val = val;
+}
+
+function getSelectedType(prefix) {
+  const el = document.querySelector('#' + prefix + '-type-pills .type-pill.selected');
+  return el ? el.textContent.trim() : '';
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SAVE ENTRY
+═══════════════════════════════════════════════════════════════════ */
+function saveEntry(type) {
+  const p = type === 'invoice' ? 'inv' : 'vou';
+  let entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+    type,
+    date: todayStr(),
+    time: new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'}),
+    device: state.user?.device || 'Unknown',
+    submittedBy: state.user?.name || '',
+    sent: false,
+  };
+
+  if (type === 'invoice') {
+    const supplier = document.getElementById('inv-supplier').value.trim();
+    const amount = document.getElementById('inv-amount').value.trim();
+    const itype = getSelectedType('inv');
+    const about = document.getElementById('inv-about').value.trim();
+    if (!supplier || !amount || !itype) {
+      showToast('Please fill Supplier, Amount and Type', 'error'); return;
+    }
+    Object.assign(entry, { supplier, amount: parseFloat(amount), itype, about });
+  } else {
+    const person = document.getElementById('vou-person').value;
+    const amount = document.getElementById('vou-amount').value.trim();
+    const itype = getSelectedType('vou');
+    const about = document.getElementById('vou-about').value.trim();
+    if (!person || !amount || !itype) {
+      showToast('Please fill Person, Amount and Type', 'error'); return;
+    }
+    Object.assign(entry, { person, amount: parseFloat(amount), itype, about });
+  }
+
+  // file info
+  const fd = state.fileData[p];
+  if (fd) { entry.fileName = fd.name; entry.fileDataUrl = fd.dataUrl; }
+
+  state.entries.push(entry);
+  saveLocal();
+
+  document.getElementById('after-save-msg').textContent =
+    (type === 'invoice' ? '🧾 Invoice' : '📝 Voucher') + ' saved!';
+  document.getElementById('after-save-sub').textContent =
+    'Entry #' + state.entries.length + ' — ' + entry.date + ' ' + entry.time;
+
+  uploadToGoogleSheets(entry);
+  goTo('screen-after-save');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GOOGLE SHEETS SYNC
+═══════════════════════════════════════════════════════════════════ */
+async function uploadToGoogleSheets(entry) {
+  if (!state.user?.sheetId || !state.user?.apiKey) return;
+
+  // Build row values
+  const row = [
+    entry.id,
+    entry.date,
+    entry.time,
+    entry.type.toUpperCase(),
+    entry.supplier || entry.person || '',
+    entry.amount,
+    entry.itype,
+    entry.about || '',
+    entry.fileName || '',
+    entry.device,
+    entry.submittedBy,
+  ];
+
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${state.user.sheetId}/values/Sheet1!A1:K1:append?valueInputOption=USER_ENTERED&key=${state.user.apiKey}`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: [row] }),
+    });
+    if (res.ok) {
+      showToast('Synced to Google Sheets ✓', 'success');
+      // upload file to drive if present
+      if (entry.fileDataUrl && state.user.folderId) {
+        uploadFileToDrive(entry);
+      }
+    }
+  } catch (err) {
+    console.warn('Sheets sync failed:', err);
+  }
+}
+
+async function uploadFileToDrive(entry) {
+  if (!entry.fileDataUrl || !state.user?.apiKey) return;
+  try {
+    // Convert dataUrl to blob
+    const res = await fetch(entry.fileDataUrl);
+    const blob = await res.blob();
+    const meta = JSON.stringify({ name: entry.id + '_' + entry.fileName, parents: [state.user.folderId] });
+    const form = new FormData();
+    form.append('metadata', new Blob([meta], { type: 'application/json' }));
+    form.append('file', blob);
+    await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&key=' + state.user.apiKey, {
+      method: 'POST', body: form,
+    });
+  } catch (err) {
+    console.warn('Drive upload failed:', err);
+  }
+}
+
+/* Load all entries from Sheets on app start */
+async function loadFromSheets() {
+  if (!state.user?.sheetId || !state.user?.apiKey) return;
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${state.user.sheetId}/values/Sheet1!A2:K1000?key=${state.user.apiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.values) return;
+    const remoteEntries = data.values.map(r => ({
+      id: r[0]||'', date: r[1]||'', time: r[2]||'',
+      type: (r[3]||'').toLowerCase(),
+      supplier: r[4]||'', person: r[4]||'',
+      amount: parseFloat(r[5])||0,
+      itype: r[6]||'', about: r[7]||'',
+      fileName: r[8]||'', device: r[9]||'',
+      submittedBy: r[10]||'', sent: true,
+    }));
+    // Merge: keep local unsent, add remote that aren't already local
+    const localIds = new Set(state.entries.map(e => e.id));
+    remoteEntries.forEach(re => { if (!localIds.has(re.id)) state.entries.push(re); });
+    saveLocal();
+    updateHomeStats();
+  } catch (err) {
+    console.warn('Load from Sheets failed:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FILE HANDLING
+═══════════════════════════════════════════════════════════════════ */
+function triggerFileChoice(p) {
+  document.getElementById(p + '-upload-area').classList.add('hidden');
+  document.getElementById(p + '-upload-btns').classList.remove('hidden');
+}
+function cancelUpload(p) {
+  document.getElementById(p + '-upload-area').classList.remove('hidden');
+  document.getElementById(p + '-upload-btns').classList.add('hidden');
+}
+function capturePhoto(p) {
+  document.getElementById(p + '-file-cam').click();
+}
+function choosePhoto(p) {
+  document.getElementById(p + '-file-gallery').click();
+}
+function chooseFile(p) {
+  document.getElementById(p + '-file-doc').click();
+}
+function handleFile(input, p) {
+  const file = input.files[0];
+  if (!file) return;
+  cancelUpload(p);
+  const reader = new FileReader();
+  reader.onload = e => {
+    state.fileData[p] = { name: file.name, dataUrl: e.target.result };
+    const preview = document.getElementById(p + '-file-preview');
+    const thumb = document.getElementById(p + '-file-thumb');
+    document.getElementById(p + '-file-name').textContent = file.name;
+    if (file.type.startsWith('image/')) {
+      thumb.src = e.target.result; thumb.style.display = 'block';
+    } else {
+      thumb.style.display = 'none';
+    }
+    preview.classList.remove('hidden');
+  };
+  reader.readAsDataURL(file);
+}
+function removeFile(p) {
+  state.fileData[p] = null;
+  document.getElementById(p + '-file-preview').classList.add('hidden');
+  document.getElementById(p + '-file-thumb').style.display = 'none';
+  document.getElementById(p + '-file-cam').value = '';
+  document.getElementById(p + '-file-gallery').value = '';
+  document.getElementById(p + '-file-doc').value = '';
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SUPPLIER SEARCH
+═══════════════════════════════════════════════════════════════════ */
+let hideSupplierTimer;
+function showSuppliers() {
+  clearTimeout(hideSupplierTimer);
+  filterSuppliers(document.getElementById('inv-supplier').value);
+}
+function hideSuppliers() {
+  hideSupplierTimer = setTimeout(() => {
+    document.getElementById('supplier-dropdown').classList.remove('open');
+  }, 200);
+}
+function filterSuppliers(q) {
+  const dd = document.getElementById('supplier-dropdown');
+  const results = q
+    ? state.suppliers.filter(s => s.toLowerCase().includes(q.toLowerCase()))
+    : state.suppliers;
+  if (!results.length) { dd.classList.remove('open'); return; }
+  dd.innerHTML = results.map(s => {
+    const hi = q ? s.replace(new RegExp(`(${q})`, 'gi'), '<mark>$1</mark>') : s;
+    return `<div class="supplier-option" onmousedown="selectSupplier('${s}')">${hi}</div>`;
+  }).join('');
+  dd.classList.add('open');
+}
+function selectSupplier(name) {
+  document.getElementById('inv-supplier').value = name;
+  document.getElementById('supplier-dropdown').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MASTER DATABASE
+═══════════════════════════════════════════════════════════════════ */
+function addSupplier() {
+  const inp = document.getElementById('new-supplier-input');
+  const val = inp.value.trim();
+  if (!val) { showToast('Enter a supplier name', 'error'); return; }
+  if (state.suppliers.includes(val)) { showToast('Supplier already exists', 'error'); return; }
+  state.suppliers.push(val);
+  state.suppliers.sort((a,b) => a.localeCompare(b));
+  saveLocal();
+  inp.value = '';
+  renderMaster();
+  showToast('Supplier added ✓', 'success');
+}
+function deleteSupplier(name) {
+  if (!confirm('Delete "' + name + '"?')) return;
+  state.suppliers = state.suppliers.filter(s => s !== name);
+  saveLocal();
+  renderMaster();
+  showToast('Supplier removed');
+}
+function renderMaster() {
+  document.getElementById('supplier-count').textContent = state.suppliers.length;
+  const ul = document.getElementById('master-supplier-list');
+  if (!state.suppliers.length) {
+    ul.innerHTML = '<li style="padding:20px 0;text-align:center;color:var(--muted);font-size:13px;">No suppliers yet. Add one above.</li>';
+    return;
+  }
+  ul.innerHTML = state.suppliers.map(s =>
+    `<li class="master-item"><span>${s}</span><span class="master-item-del" onclick="deleteSupplier('${s.replace(/'/g,"\\'")}')">🗑</span></li>`
+  ).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   REPORTS
+═══════════════════════════════════════════════════════════════════ */
+function setDocFilter(el, val) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  state.docFilter = val;
+  renderReports();
+}
+function toggleFilterPanel() {
+  document.getElementById('filter-panel').classList.toggle('open');
+}
+function applyFilters() {
+  state.filters = {
+    from: document.getElementById('filter-from').value,
+    to: document.getElementById('filter-to').value,
+    type: document.getElementById('filter-type').value,
+    supplier: document.getElementById('filter-supplier').value.trim().toLowerCase(),
+    person: document.getElementById('filter-person').value.trim().toLowerCase(),
+  };
+  document.getElementById('filter-panel').classList.remove('open');
+  renderReports();
+}
+function clearFilters() {
+  state.filters = {};
+  document.getElementById('filter-from').value = '';
+  document.getElementById('filter-to').value = '';
+  document.getElementById('filter-type').value = '';
+  document.getElementById('filter-supplier').value = '';
+  document.getElementById('filter-person').value = '';
+  renderReports();
+}
+function renderReports() {
+  let list = [...state.entries].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  if (state.docFilter !== 'all') list = list.filter(e => e.type === state.docFilter);
+  const f = state.filters;
+  if (f.from) list = list.filter(e => e.date >= f.from);
+  if (f.to) list = list.filter(e => e.date <= f.to);
+  if (f.type) list = list.filter(e => e.itype === f.type);
+  if (f.supplier) list = list.filter(e => (e.supplier||'').toLowerCase().includes(f.supplier));
+  if (f.person) list = list.filter(e => (e.person||'').toLowerCase().includes(f.person));
+
+  const container = document.getElementById('reports-list');
+  if (!list.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><h3>No records found</h3><p>Try adjusting your filters</p></div>';
+    return;
+  }
+  container.innerHTML = list.map(e => {
+    const isInv = e.type === 'invoice';
+    const who = isInv ? (e.supplier || '—') : (e.person || e.supplier || '—');
+    const fileIcon = e.fileName ? ' 📎' : '';
+    return `<div class="entry-card ${isInv ? '' : 'voucher'}">
+      <div class="entry-card-top">
+        <div>
+          <span class="entry-tag ${isInv ? 'inv' : 'vou'}">${isInv ? 'INVOICE' : 'VOUCHER'}</span>
+        </div>
+        <div class="entry-card-amount rupee">${fmtAmt(e.amount)}</div>
+      </div>
+      <div class="entry-card-name">${who}${fileIcon}</div>
+      <div class="entry-card-sub">${e.date} · ${e.time} · ${e.device||''}</div>
+      ${e.about ? `<div class="entry-card-about">${e.about}</div>` : ''}
+      <div class="entry-card-meta">
+        <span class="meta-pill">${e.itype||''}</span>
+        ${e.sent ? '<span class="meta-pill" style="background:#F0FDF4;color:#166534;">✓ Sent</span>' : '<span class="meta-pill" style="background:#FEF3C7;color:#92400E;">Pending</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+function fmtAmt(n) {
+  return parseFloat(n||0).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SEND MODAL
+═══════════════════════════════════════════════════════════════════ */
+function openSendModal() {
+  const today = todayStr();
+  const unsent = state.entries.filter(e => !e.sent && e.date === today);
+  const el = document.getElementById('send-entries-list');
+  if (!unsent.length) {
+    el.innerHTML = '<p class="text-muted" style="padding:12px 0;">No unsent entries for today.</p>';
+  } else {
+    el.innerHTML = unsent.map(e => {
+      const who = e.type === 'invoice' ? (e.supplier||'—') : (e.person||'—');
+      return `<div class="send-entry">
+        <input type="checkbox" id="se_${e.id}" data-id="${e.id}" checked/>
+        <div class="send-entry-info">
+          <strong>${who}</strong>
+          <span>${e.type.toUpperCase()} · ${e.itype} · ${e.time}</span>
+          ${e.about ? `<span style="font-style:italic;color:var(--muted);">${e.about}</span>` : ''}
+        </div>
+        <span class="send-entry-amt rupee">${fmtAmt(e.amount)}</span>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('send-modal').classList.add('open');
+}
+function closeSendModal() {
+  document.getElementById('send-modal').classList.remove('open');
+}
+function sendReport() {
+  const checked = [...document.querySelectorAll('#send-entries-list input[type=checkbox]:checked')];
+  if (!checked.length) { showToast('Select at least one entry', 'error'); return; }
+  const ids = checked.map(c => c.dataset.id);
+  const toSend = state.entries.filter(e => ids.includes(e.id));
+
+  const emails = [];
+  if (document.getElementById('em1').checked) emails.push('accounts@innotekproducts.com');
+  if (document.getElementById('em2').checked) emails.push('ceo@innotekproducts.com');
+  if (document.getElementById('em3').checked) emails.push('business@innotekproducts.com');
+  if (document.getElementById('em4').checked) emails.push('accounts.finance@unitycpl.com');
+  if (!emails.length) { showToast('Select at least one recipient', 'error'); return; }
+
+  const subject = encodeURIComponent('Doc Mgmt Report — ' + todayStr() + ' (' + (state.user?.device||'') + ')');
+  const body = encodeURIComponent(buildEmailBody(toSend));
+  const to = emails.join(',');
+  const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+  window.location.href = mailto;
+
+  // Mark as sent
+  toSend.forEach(e => { e.sent = true; });
+  saveLocal();
+  closeSendModal();
+  updateHomeStats();
+  showToast('Email drafted — check your mail app ✓', 'success');
+}
+
+function buildEmailBody(entries) {
+  const user = state.user;
+  const today = new Date().toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  let body = `DOC MGMT SYSTEM — DAILY REPORT\n`;
+  body += `Date: ${today}\n`;
+  body += `Submitted by: ${user?.name||'—'} (${user?.device||'—'})\n`;
+  body += `Email: ${user?.email||'—'}\n`;
+  body += `─────────────────────────────────────────\n\n`;
+
+  const invoices = entries.filter(e => e.type === 'invoice');
+  const vouchers = entries.filter(e => e.type === 'voucher');
+
+  if (invoices.length) {
+    body += `INVOICES (${invoices.length})\n`;
+    body += `─────────────────────────────────────────\n`;
+    invoices.forEach((e,i) => {
+      body += `${i+1}. ${e.supplier||'—'}\n`;
+      body += `   Amount : ₹${fmtAmt(e.amount)}\n`;
+      body += `   Type   : ${e.itype}\n`;
+      if (e.about) body += `   About  : ${e.about}\n`;
+      if (e.fileName) body += `   File   : ${e.fileName}\n`;
+      body += `   Time   : ${e.time}\n\n`;
+    });
+    const invTotal = invoices.reduce((s,e) => s + (parseFloat(e.amount)||0), 0);
+    body += `Invoice Total: ₹${fmtAmt(invTotal)}\n\n`;
+  }
+
+  if (vouchers.length) {
+    body += `VOUCHERS (${vouchers.length})\n`;
+    body += `─────────────────────────────────────────\n`;
+    vouchers.forEach((e,i) => {
+      body += `${i+1}. ${e.person||'—'}\n`;
+      body += `   Amount : ₹${fmtAmt(e.amount)}\n`;
+      body += `   Type   : ${e.itype}\n`;
+      if (e.about) body += `   About  : ${e.about}\n`;
+      if (e.fileName) body += `   File   : ${e.fileName}\n`;
+      body += `   Time   : ${e.time}\n\n`;
+    });
+    const vouTotal = vouchers.reduce((s,e) => s + (parseFloat(e.amount)||0), 0);
+    body += `Voucher Total: ₹${fmtAmt(vouTotal)}\n\n`;
+  }
+
+  const grandTotal = entries.reduce((s,e) => s + (parseFloat(e.amount)||0), 0);
+  body += `─────────────────────────────────────────\n`;
+  body += `GRAND TOTAL: ₹${fmtAmt(grandTotal)}\n`;
+  body += `─────────────────────────────────────────\n\n`;
+  body += `[This report was generated by Doc Mgmt System]\n`;
+  if (user?.folderId) body += `Files: https://drive.google.com/drive/folders/${user.folderId}\n`;
+  return body;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = '', 3000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════════ */
+function init() {
+  if (state.user) {
+    goTo('screen-home', false);
+    updateHomeStats();
+    loadFromSheets();
+  } else {
+    goTo('screen-setup', false);
+  }
+}
+
+// Close modal on overlay tap
+document.getElementById('send-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSendModal();
+});
+
+// Handle back button on mobile
+window.addEventListener('popstate', () => {
+  if (state.screenStack.length) goBack();
+});
+
+init();
+</script>
+</body>
+</html>
