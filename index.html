@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -12,214 +12,276 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--navy:#1B2B4B;--navy-2:#243660;--slate:#4A5568;--amber:#F6A623;--green:#22C55E;--red:#EF4444;--bg:#F0F2F7;--surface:#FFFFFF;--border:#DDE1EA;--text:#1A202C;--muted:#718096;--radius:14px;--shadow:0 2px 12px rgba(27,43,75,0.10);}
+/* ── CHANGE ONLY THIS LINE WHEN YOU REDEPLOY THE APPS SCRIPT ── */
+/* SCRIPT_URL is set in JS below */
+
+:root{--navy:#1B2B4B;--navy-2:#243660;--slate:#4A5568;--amber:#F6A623;--green:#22C55E;--red:#EF4444;--bg:#F0F2F7;--surface:#FFFFFF;--border:#DDE1EA;--text:#1A202C;--muted:#718096;--radius:12px;--shadow:0 1px 8px rgba(27,43,75,0.10);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 #app{display:flex;flex-direction:column;min-height:100vh;}
-.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeIn .22s ease;}
+.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeIn .18s ease;}
 .screen.active{display:flex;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.hdr{background:var(--navy);color:#fff;padding:env(safe-area-inset-top,16px) 20px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
-.hdr-back{background:rgba(255,255,255,.12);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;}
-.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;letter-spacing:.3px;flex:1;}
-.hdr-badge{background:var(--amber);color:var(--navy);font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.5px;}
-.hdr-btn{background:rgba(255,255,255,.12);border:none;color:#fff;padding:0 12px;height:32px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
-.content{flex:1;padding:20px 16px 100px;overflow-y:auto;}
-.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
-.card-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.home-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);padding:28px 20px 24px;color:#fff;}
-.home-hero h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:4px;}
-.home-hero p{font-size:13px;opacity:.7;margin-bottom:16px;}
-.hero-stats{display:flex;gap:12px;}
-.stat-box{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 0;text-align:center;flex:1;}
-.stat-box span{display:block;font-size:22px;font-weight:700;color:var(--amber);}
-.stat-box small{font-size:11px;opacity:.7;}
-.main-menu{display:flex;flex-direction:column;gap:12px;padding:20px 16px;}
-.menu-btn{display:flex;align-items:center;gap:16px;background:var(--surface);border:none;border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;text-align:left;width:100%;transition:transform .1s;}
-.menu-btn:active{transform:scale(.98);}
-.menu-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.menu-text strong{display:block;font-size:15px;font-weight:600;color:var(--text);}
-.menu-text span{font-size:12px;color:var(--muted);margin-top:2px;display:block;}
-.menu-arrow{margin-left:auto;color:var(--muted);font-size:20px;}
-.setup-wrap{padding:32px 20px;}
-.setup-logo{text-align:center;margin-bottom:28px;}
-.setup-logo h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--navy);margin-top:12px;}
-.setup-logo p{font-size:13px;color:var(--muted);margin-top:4px;}
-.logo-icon{width:70px;height:70px;background:var(--navy);border-radius:20px;display:inline-flex;align-items:center;justify-content:center;font-size:32px;}
-.field{margin-bottom:18px;}
-.field label{display:block;font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--slate);margin-bottom:7px;}
-.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:15px;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .15s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+
+/* HEADER */
+.hdr{background:var(--navy);color:#fff;padding:env(safe-area-inset-top,14px) 16px 13px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
+.hdr-back{background:rgba(255,255,255,.12);border:none;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0;}
+.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;flex:1;}
+.hdr-badge{background:var(--amber);color:var(--navy);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
+.hdr-btn{background:rgba(255,255,255,.12);border:none;color:#fff;padding:0 10px;height:28px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+
+/* CONTENT */
+.content{flex:1;padding:14px 14px 90px;overflow-y:auto;}
+
+/* CARDS */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+
+/* HOME HERO */
+.home-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);padding:22px 16px 18px;color:#fff;}
+.home-hero h1{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:2px;}
+.home-hero p{font-size:12px;opacity:.7;margin-bottom:14px;}
+.hero-stats{display:flex;gap:10px;}
+.stat-box{background:rgba(255,255,255,.1);border-radius:9px;padding:8px 0;text-align:center;flex:1;}
+.stat-box span{display:block;font-size:20px;font-weight:700;color:var(--amber);}
+.stat-box small{font-size:10px;opacity:.7;}
+
+/* MENU */
+.main-menu{display:flex;flex-direction:column;gap:10px;padding:14px;}
+.menu-btn{display:flex;align-items:center;gap:13px;background:var(--surface);border:none;border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);cursor:pointer;text-align:left;width:100%;}
+.menu-btn:active{opacity:.85;}
+.menu-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.menu-text strong{display:block;font-size:14px;font-weight:600;}
+.menu-text span{font-size:11px;color:var(--muted);margin-top:1px;display:block;}
+.menu-arrow{margin-left:auto;color:var(--muted);font-size:18px;}
+.menu-btn.due-btn{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;}
+.menu-btn.due-btn .menu-text strong{color:#fff;}
+.menu-btn.due-btn .menu-text span{color:rgba(255,255,255,.7);}
+.menu-btn.due-btn .menu-arrow{color:rgba(255,255,255,.6);}
+.due-count-badge{background:#EF4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;}
+
+/* SETUP */
+.setup-wrap{padding:28px 16px;}
+.setup-logo{text-align:center;margin-bottom:24px;}
+.setup-logo h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-top:10px;}
+.setup-logo p{font-size:12px;color:var(--muted);margin-top:3px;}
+.logo-icon{width:64px;height:64px;background:var(--navy);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;}
+
+/* FORMS */
+.field{margin-bottom:15px;}
+.field label{display:block;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.field input,.field select{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:#fff;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .15s;}
 .field input:focus,.field select:focus{border-color:var(--navy);}
 .field input[type=number]{-moz-appearance:textfield;}
 .field input[type=number]::-webkit-inner-spin-button{display:none;}
 .field input[type=date]{color:var(--text);}
-/* due date special styling */
-.due-date-wrap{position:relative;}
-.due-date-wrap input[type=date]{padding-right:44px;}
-.cal-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px;pointer-events:none;}
-.due-alert-bar{display:flex;align-items:center;gap:10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:9px;padding:10px 13px;margin-top:8px;cursor:pointer;transition:background .15s;}
-.due-alert-bar:active{background:#DBEAFE;}
-.due-alert-bar .alert-icon{font-size:18px;flex-shrink:0;}
-.due-alert-bar .alert-text{flex:1;}
-.due-alert-bar .alert-text strong{display:block;font-size:13px;font-weight:600;color:#1D4ED8;}
-.due-alert-bar .alert-text span{font-size:11px;color:#3B82F6;}
-.due-alert-bar .alert-arrow{color:#93C5FD;font-size:16px;}
-.due-alert-bar.no-date{background:#F8FAFC;border-color:var(--border);cursor:default;}
-.due-alert-bar.no-date .alert-text strong{color:var(--muted);}
-.due-alert-bar.no-date .alert-text span{color:var(--border);}
 .select-wrap{position:relative;}
-.select-wrap::after{content:'\25BE';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.select-wrap::after{content:'\25BE';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
 .supplier-search-wrap{position:relative;}
-.supplier-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--navy);border-radius:10px;max-height:200px;overflow-y:auto;z-index:200;box-shadow:var(--shadow);display:none;}
+.supplier-dropdown{position:absolute;top:calc(100% + 3px);left:0;right:0;background:#fff;border:1.5px solid var(--navy);border-radius:9px;max-height:180px;overflow-y:auto;z-index:200;box-shadow:var(--shadow);display:none;}
 .supplier-dropdown.open{display:block;}
-.supplier-option{padding:12px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);}
+.supplier-option{padding:10px 13px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--border);}
 .supplier-option:last-child{border-bottom:none;}
 .supplier-option mark{background:#FEF3C7;border-radius:3px;padding:0 2px;}
-.type-pills{display:flex;flex-wrap:wrap;gap:8px;}
-.type-pill{border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;background:#fff;color:var(--slate);transition:all .15s;}
+
+/* TYPE PILLS */
+.type-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.type-pill{border:1.5px solid var(--border);border-radius:7px;padding:7px 12px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--slate);transition:all .15s;}
 .type-pill.selected{border-color:var(--navy);background:var(--navy);color:#fff;}
-.upload-area{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;}
-.upload-area p{font-size:13px;color:var(--muted);margin-top:8px;}
-.upload-buttons{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
-.upload-btn-opt{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:11px 14px;cursor:pointer;font-size:14px;font-weight:500;}
+
+/* DUE DATE */
+.due-date-wrap{position:relative;}
+.due-date-wrap input[type=date]{padding-right:40px;}
+.cal-icon{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none;}
+.due-alert-bar{display:flex;align-items:center;gap:9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:9px 12px;margin-top:7px;cursor:pointer;}
+.due-alert-bar.no-date{background:#F8FAFC;border-color:var(--border);cursor:default;}
+.due-alert-bar .alert-icon{font-size:16px;flex-shrink:0;}
+.due-alert-bar .alert-text strong{display:block;font-size:12px;font-weight:600;color:#1D4ED8;}
+.due-alert-bar.no-date .alert-text strong{color:var(--muted);}
+.due-alert-bar .alert-text span{font-size:11px;color:#3B82F6;}
+.due-alert-bar.no-date .alert-text span{color:var(--border);}
+
+/* FILE UPLOAD */
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;}
+.upload-area p{font-size:12px;color:var(--muted);margin-top:6px;}
+.upload-buttons{display:flex;flex-direction:column;gap:7px;margin-top:10px;}
+.upload-btn-opt{display:flex;align-items:center;gap:9px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;cursor:pointer;font-size:13px;font-weight:500;}
 .upload-btn-opt:active{background:var(--border);}
-.file-preview{margin-top:12px;background:var(--bg);border-radius:9px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
-.file-preview img{width:44px;height:44px;object-fit:cover;border-radius:6px;}
-.file-preview .file-name{font-size:12px;color:var(--slate);word-break:break-all;flex:1;}
-.file-preview .remove-file{color:var(--red);font-size:18px;cursor:pointer;padding:4px;}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:11px;padding:15px 20px;font-size:15px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;width:100%;transition:transform .1s;margin-bottom:10px;}
+.file-preview{margin-top:10px;background:var(--bg);border-radius:8px;padding:9px 13px;display:flex;align-items:center;gap:9px;}
+.file-preview img{width:38px;height:38px;object-fit:cover;border-radius:5px;}
+.file-preview .file-name{font-size:11px;color:var(--slate);word-break:break-all;flex:1;}
+.file-preview .remove-file{color:var(--red);font-size:17px;cursor:pointer;padding:4px;}
+
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:10px;padding:13px 18px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;width:100%;transition:transform .1s;margin-bottom:9px;}
 .btn:active{transform:scale(.97);}
 .btn-primary{background:var(--navy);color:#fff;}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
 .btn-amber{background:var(--amber);color:var(--navy);}
 .btn-outline{background:transparent;border:2px solid var(--navy);color:var(--navy);}
 .btn-blue{background:#2563EB;color:#fff;}
-.btn-sm{padding:10px 16px;font-size:13px;border-radius:9px;}
-.btn-row{display:flex;gap:10px;}
+.btn-purple{background:#7C3AED;color:#fff;}
+.btn-sm{padding:8px 14px;font-size:12px;border-radius:8px;}
+.btn-row{display:flex;gap:8px;}
 .btn-row .btn{flex:1;}
-.entry-types{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
-.entry-type-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:28px 16px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text);transition:all .15s;}
+
+/* ENTRY TYPES */
+.entry-types{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;}
+.entry-type-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:24px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);}
 .entry-type-btn:active{transform:scale(.97);}
-.entry-type-btn .icon{font-size:36px;}
-.filter-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.entry-type-btn .icon{font-size:32px;}
+
+/* ── COMPACT RECORD CELL (reports + due screen) ── */
+.rec-list{display:flex;flex-direction:column;gap:5px;}
+.rec-cell{background:var(--surface);border-radius:9px;box-shadow:0 1px 4px rgba(27,43,75,.08);padding:9px 12px;border-left:3px solid var(--navy);cursor:default;}
+.rec-cell.voucher{border-left-color:var(--amber);}
+.rec-cell.overdue{border-left-color:var(--red);}
+.rec-cell.paid{border-left-color:var(--green);opacity:.7;}
+.rec-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.rec-name{font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px;}
+.rec-amount{font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;}
+.rec-row2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.rec-tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;}
+.rec-tag.inv{background:#EEF2FF;color:#3730A3;}
+.rec-tag.vou{background:#FEF3C7;color:#92400E;}
+.rec-meta{font-size:10px;color:var(--muted);}
+.rec-pill{font-size:10px;border-radius:4px;padding:2px 6px;font-weight:500;}
+.rec-pill.synced{background:#F0FDF4;color:#166534;}
+.rec-pill.local{background:#FEF3C7;color:#92400E;}
+.rec-pill.sent{background:#EEF2FF;color:#3730A3;}
+.rec-pill.due-up{background:#EFF6FF;color:#1D4ED8;}
+.rec-pill.due-today{background:#FEF3C7;color:#92400E;font-weight:700;}
+.rec-pill.overdue{background:#FEF2F2;color:#991B1B;font-weight:700;}
+.rec-pill.paid-pill{background:#F0FDF4;color:#166534;font-weight:700;}
+.rec-about{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.rec-actions{display:flex;gap:5px;align-items:center;margin-left:auto;}
+.rec-cal-btn{font-size:10px;color:#2563EB;cursor:pointer;padding:2px 5px;background:#EFF6FF;border-radius:4px;white-space:nowrap;}
+.rec-drive-btn{font-size:10px;color:#3730A3;text-decoration:none;padding:2px 5px;background:#EEF2FF;border-radius:4px;}
+.paid-toggle{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;white-space:nowrap;}
+.paid-toggle.mark-paid{background:#22C55E;color:#fff;}
+.paid-toggle.mark-unpaid{background:#F0FDF4;color:#166534;border:1px solid #86EFAC;}
+
+/* FILTER */
+.filter-bar{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none;}
 .filter-bar::-webkit-scrollbar{display:none;}
-.filter-chip{flex-shrink:0;border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:500;background:#fff;color:var(--slate);cursor:pointer;white-space:nowrap;}
+.filter-chip{flex-shrink:0;border:1.5px solid var(--border);border-radius:18px;padding:5px 12px;font-size:11px;font-weight:500;background:#fff;color:var(--slate);cursor:pointer;white-space:nowrap;}
 .filter-chip.active{border-color:var(--navy);background:var(--navy);color:#fff;}
-.filter-panel{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px;display:none;}
+.filter-panel{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:12px;display:none;}
 .filter-panel.open{display:block;}
-.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
 .filter-row .field{margin-bottom:0;}
-.entry-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px;border-left:4px solid var(--navy);}
-.entry-card.voucher{border-left-color:var(--amber);}
-.entry-card.overdue{border-left-color:var(--red);}
-.entry-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
-.entry-tag{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:3px 8px;border-radius:6px;}
-.entry-tag.inv{background:#EEF2FF;color:#3730A3;}
-.entry-tag.vou{background:#FEF3C7;color:#92400E;}
-.entry-card-name{font-size:15px;font-weight:600;margin-bottom:2px;}
-.entry-card-sub{font-size:12px;color:var(--muted);}
-.entry-card-amount{font-size:17px;font-weight:700;color:var(--navy);}
-.entry-card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center;}
-.meta-pill{font-size:11px;background:var(--bg);border-radius:6px;padding:3px 8px;color:var(--slate);}
-.due-pill{font-size:11px;border-radius:6px;padding:3px 8px;font-weight:600;}
-.due-pill.upcoming{background:#EFF6FF;color:#1D4ED8;}
-.due-pill.today{background:#FEF3C7;color:#92400E;}
-.due-pill.overdue{background:#FEF2F2;color:#991B1B;}
-.entry-card-about{font-size:12px;color:var(--muted);margin-top:6px;font-style:italic;}
+
+/* MASTER */
 .master-list{list-style:none;}
-.master-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.master-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);}
 .master-item:last-child{border-bottom:none;}
-.master-item span{font-size:15px;}
-.master-item-del{color:var(--red);font-size:20px;cursor:pointer;padding:4px 8px;}
+.master-item span{font-size:14px;}
+.master-item-del{color:var(--red);font-size:18px;cursor:pointer;padding:4px 8px;}
+
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;}
 .modal-overlay.open{display:flex;}
-.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px calc(28px + env(safe-area-inset-bottom,0px));width:100%;max-height:90vh;overflow-y:auto;}
-.modal-handle{width:36px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 20px;}
-.modal-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
-.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
-.send-entry{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.modal-sheet{background:#fff;border-radius:18px 18px 0 0;padding:22px 18px calc(26px + env(safe-area-inset-bottom,0px));width:100%;max-height:90vh;overflow-y:auto;}
+.modal-handle{width:32px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 18px;}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin-bottom:3px;}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:18px;}
+.send-entry{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
 .send-entry:last-child{border-bottom:none;}
-.send-entry input[type=checkbox]{width:20px;height:20px;accent-color:var(--navy);flex-shrink:0;margin-top:2px;}
+.send-entry input[type=checkbox]{width:18px;height:18px;accent-color:var(--navy);flex-shrink:0;margin-top:2px;}
 .send-entry-info{flex:1;}
-.send-entry-info strong{font-size:14px;}
-.send-entry-info span{display:block;font-size:12px;color:var(--muted);}
-.send-entry-amt{font-weight:700;font-size:14px;color:var(--navy);white-space:nowrap;}
-.email-check{display:flex;align-items:center;gap:10px;padding:10px 0;}
-.email-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--navy);}
-.email-check label{font-size:14px;}
-/* ics modal */
-.ics-modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:28px 20px calc(32px + env(safe-area-inset-bottom,0px));width:100%;max-height:80vh;overflow-y:auto;}
-.ics-icon{font-size:52px;text-align:center;margin-bottom:12px;}
-.ics-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;text-align:center;margin-bottom:6px;}
-.ics-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:20px;}
-.ics-detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;}
-.ics-detail-row:last-child{border-bottom:none;}
-.ics-detail-row span:first-child{color:var(--muted);}
-.ics-detail-row span:last-child{font-weight:600;text-align:right;max-width:60%;}
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.success{background:var(--green);}
-#toast.error{background:var(--red);}
-#toast.warning{background:#D97706;}
-.sync-banner{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:13px;font-weight:500;}
+.send-entry-info strong{font-size:13px;}
+.send-entry-info span{display:block;font-size:11px;color:var(--muted);}
+.send-entry-amt{font-weight:700;font-size:13px;color:var(--navy);white-space:nowrap;}
+.email-check{display:flex;align-items:center;gap:9px;padding:9px 0;}
+.email-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--navy);}
+.email-check label{font-size:13px;}
+
+/* PIN MODAL */
+.pin-modal{background:#fff;border-radius:18px 18px 0 0;padding:30px 20px calc(30px + env(safe-area-inset-bottom,0px));width:100%;text-align:center;}
+.pin-icon{font-size:48px;margin-bottom:12px;}
+.pin-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.pin-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
+.pin-input{width:160px;border:2px solid var(--border);border-radius:10px;padding:14px;font-size:22px;font-weight:700;text-align:center;letter-spacing:8px;outline:none;font-family:'Inter',sans-serif;color:var(--navy);}
+.pin-input:focus{border-color:var(--navy);}
+.pin-error{font-size:12px;color:var(--red);margin-top:8px;min-height:18px;}
+
+/* DUE SECTION HEADER */
+.due-section-hdr{display:flex;align-items:center;gap:8px;padding:10px 0 6px;}
+.due-section-hdr span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;}
+.due-section-hdr .count{font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;}
+
+/* SYNC BANNER */
+.sync-banner{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:9px;margin-bottom:10px;font-size:12px;font-weight:500;}
 .sync-banner.syncing{background:#EEF2FF;color:#3730A3;}
 .sync-banner.ok{background:#F0FDF4;color:#166534;}
 .sync-banner.fail{background:#FEF2F2;color:#991B1B;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .spin{display:inline-block;animation:spin 1s linear infinite;}
-.info-box{background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:14px;font-size:13px;color:#92400E;line-height:1.6;margin-bottom:14px;}
-.info-box strong{display:block;margin-bottom:4px;font-size:14px;}
-.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
-.text-muted{color:var(--muted);font-size:13px;}
+
+/* MISC */
+.info-box{background:#FFF7ED;border:1px solid #FED7AA;border-radius:9px;padding:12px;font-size:12px;color:#92400E;line-height:1.6;margin-bottom:12px;}
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.text-muted{color:var(--muted);font-size:12px;}
 .text-center{text-align:center;}
 .mt-8{margin-top:8px;}
 .hidden{display:none!important;}
 input[type=file]{display:none;}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.section-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
-.empty{text-align:center;padding:48px 20px;}
-.empty-icon{font-size:48px;margin-bottom:12px;}
-.empty h3{font-size:16px;font-weight:600;margin-bottom:4px;}
-.empty p{font-size:13px;color:var(--muted);}
-.drive-link{display:flex;align-items:center;gap:12px;background:#EEF2FF;border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--navy);}
-.drive-link strong{font-size:14px;font-weight:600;}
-.drive-link small{display:block;font-size:12px;color:var(--muted);}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.section-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
+.empty{text-align:center;padding:40px 20px;}
+.empty-icon{font-size:40px;margin-bottom:10px;}
+.empty h3{font-size:15px;font-weight:600;margin-bottom:3px;}
+.empty p{font-size:12px;color:var(--muted);}
+.drive-link{display:flex;align-items:center;gap:11px;background:#EEF2FF;border-radius:11px;padding:13px 15px;text-decoration:none;color:var(--navy);}
+.drive-link strong{font-size:13px;font-weight:600;}
+.drive-link small{display:block;font-size:11px;color:var(--muted);}
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:28px;font-size:12px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{background:var(--green);}
+#toast.error{background:var(--red);}
+#toast.warning{background:#D97706;}
 </style>
 </head>
 <body>
 <div id="app">
 
-<!-- SETUP -->
+<!-- ══ SETUP ══ -->
 <div class="screen active" id="screen-setup">
   <div class="content">
     <div class="setup-wrap">
       <div class="setup-logo">
         <div class="logo-icon">&#128203;</div>
         <h2>Doc Mgmt System</h2>
-        <p>One-time setup &mdash; takes 1 minute</p>
+        <p>One-time setup &mdash; 30 seconds</p>
       </div>
       <div class="card">
         <div class="card-label">Your Details</div>
-        <div class="field"><label>Your Full Name</label><input type="text" id="setup-name" placeholder="e.g. Tejas Pathak" autocomplete="name"/></div>
-        <div class="field"><label>Your Email Address</label><input type="email" id="setup-email" placeholder="e.g. tejas@unitycpl.com" autocomplete="email"/></div>
+        <div class="field"><label>Full Name</label><input type="text" id="setup-name" placeholder="e.g. Tejas Pathak" autocomplete="name"/></div>
+        <div class="field"><label>Email Address</label><input type="email" id="setup-email" placeholder="e.g. tejas@unitycpl.com" autocomplete="email"/></div>
         <div class="field"><label>Device / Phone Label</label><input type="text" id="setup-device" placeholder="e.g. Tejas - iPhone 15"/></div>
       </div>
-      <div class="card">
-        <div class="card-label">Google Connection</div>
-        <div class="info-box">
-          <strong>&#128204; https://script.google.com/macros/s/AKfycbw4rtsqH_a_4X5ywDdHsumaRWpYiNHUeP6qEltqvIy9TLzuGQ_p5_ZKJbpPbLefiwvO/exec</strong>
-          Open your Google Sheet &rarr; Extensions &rarr; Apps Script &rarr; paste the Code.gs script &rarr; Deploy &rarr; New Deployment &rarr; Web App &rarr; copy the URL.
-        </div>
-        <div class="field"><label>Apps Script Web App URL *</label><input type="url" id="setup-script-url" placeholder="https://script.google.com/macros/s/&#8230;/exec"/></div>
-      </div>
-      <button class="btn btn-outline btn-sm" style="margin-bottom:10px;" onclick="testConnection()">&#128268; Test Connection First</button>
       <button class="btn btn-primary" onclick="completeSetup()">Get Started &#8594;</button>
-      <div id="setup-test-result" style="margin-top:8px;"></div>
+      <div id="setup-error" style="color:var(--red);font-size:12px;text-align:center;margin-top:4px;"></div>
     </div>
   </div>
 </div>
 
-<!-- HOME -->
+<!-- ══ PIN MODAL (admin auth) ══ -->
+<div class="modal-overlay" id="pin-modal">
+  <div class="pin-modal">
+    <div class="pin-icon">&#128274;</div>
+    <div class="pin-title">Authority Required</div>
+    <div class="pin-sub">This account has administrator access.<br/>Please enter your authority PIN to continue.</div>
+    <input class="pin-input" type="password" id="pin-input" maxlength="4" inputmode="numeric" placeholder="&#8226;&#8226;&#8226;&#8226;" oninput="onPinInput()"/>
+    <div class="pin-error" id="pin-error"></div>
+    <div style="margin-top:18px;display:flex;gap:10px;">
+      <button class="btn btn-outline btn-sm" style="margin-bottom:0;" onclick="cancelPin()">Cancel</button>
+      <button class="btn btn-primary btn-sm" style="margin-bottom:0;" onclick="submitPin()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
 <div class="screen" id="screen-home">
   <div class="home-hero">
     <h1>Doc Mgmt System</h1>
@@ -237,6 +299,14 @@ input[type=file]{display:none;}
       <div class="menu-text"><strong>New Entry</strong><span>Create invoice or voucher</span></div>
       <div class="menu-arrow">&#8250;</div>
     </button>
+    <button class="menu-btn due-btn" onclick="goTo('screen-due')">
+      <div class="menu-icon" style="background:rgba(255,255,255,.15);">&#128197;</div>
+      <div class="menu-text">
+        <strong>DUE <span class="due-count-badge hidden" id="due-badge">0</span></strong>
+        <span>Payments due &amp; overdue</span>
+      </div>
+      <div class="menu-arrow">&#8250;</div>
+    </button>
     <button class="menu-btn" onclick="openReports()">
       <div class="menu-icon" style="background:#F0FDF4;">&#128202;</div>
       <div class="menu-text"><strong>Show Old Reports</strong><span>View, filter &amp; search records</span></div>
@@ -248,23 +318,23 @@ input[type=file]{display:none;}
       <div class="menu-arrow">&#8250;</div>
     </button>
     <a class="drive-link" id="drive-open-link" href="#" target="_blank">
-      <span style="font-size:24px;">&#128193;</span>
+      <span style="font-size:22px;">&#128193;</span>
       <div><strong>Open Google Drive Folder</strong><small>View &amp; manage uploaded files</small></div>
-      <span style="margin-left:auto;font-size:20px;">&#8599;</span>
+      <span style="margin-left:auto;font-size:18px;">&#8599;</span>
     </a>
   </div>
 </div>
 
-<!-- ENTRY TYPE -->
+<!-- ══ ENTRY TYPE ══ -->
 <div class="screen" id="screen-entry-type">
   <div class="hdr">
     <button class="hdr-back" onclick="goBack()">&#8249;</button>
     <div class="hdr-title">New Entry</div>
   </div>
-  <div class="content" style="padding-top:32px;">
-    <div class="text-center" style="margin-bottom:24px;">
+  <div class="content" style="padding-top:28px;">
+    <div class="text-center" style="margin-bottom:20px;">
       <div class="section-title">What are you recording?</div>
-      <div class="section-sub">Choose the type of document</div>
+      <div class="section-sub">Choose the document type</div>
     </div>
     <div class="entry-types">
       <button class="entry-type-btn" onclick="startEntry('invoice')"><div class="icon">&#129534;</div>Invoice</button>
@@ -273,7 +343,7 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- INVOICE -->
+<!-- ══ INVOICE ══ -->
 <div class="screen" id="screen-invoice">
   <div class="hdr">
     <button class="hdr-back" onclick="goBack()">&#8249;</button>
@@ -319,13 +389,12 @@ input[type=file]{display:none;}
             <strong>Set Calendar Reminder</strong>
             <span id="inv-due-alert-sub">Select a due date first</span>
           </div>
-          <span class="alert-arrow">&#8250;</span>
         </div>
       </div>
       <div class="field">
         <label>Attach File (optional)</label>
         <div class="upload-area" id="inv-upload-area" onclick="triggerFileChoice('inv')">
-          <div style="font-size:32px;">&#128206;</div>
+          <div style="font-size:26px;">&#128206;</div>
           <p>Tap to attach photo or file</p>
         </div>
         <div class="upload-buttons hidden" id="inv-upload-btns">
@@ -348,7 +417,7 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- VOUCHER -->
+<!-- ══ VOUCHER ══ -->
 <div class="screen" id="screen-voucher">
   <div class="hdr">
     <button class="hdr-back" onclick="goBack()">&#8249;</button>
@@ -400,13 +469,12 @@ input[type=file]{display:none;}
             <strong>Set Calendar Reminder</strong>
             <span id="vou-due-alert-sub">Select a due date first</span>
           </div>
-          <span class="alert-arrow">&#8250;</span>
         </div>
       </div>
       <div class="field">
         <label>Attach File (optional)</label>
         <div class="upload-area" id="vou-upload-area" onclick="triggerFileChoice('vou')">
-          <div style="font-size:32px;">&#128206;</div>
+          <div style="font-size:26px;">&#128206;</div>
           <p>Tap to attach photo or file</p>
         </div>
         <div class="upload-buttons hidden" id="vou-upload-btns">
@@ -429,24 +497,23 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- AFTER SAVE -->
+<!-- ══ AFTER SAVE ══ -->
 <div class="screen" id="screen-after-save">
   <div class="hdr">
     <button class="hdr-back" onclick="goTo('screen-home')">&#8249;</button>
     <div class="hdr-title">Entry Saved</div>
   </div>
   <div class="content" style="padding-top:32px;text-align:center;">
-    <div style="font-size:64px;margin-bottom:16px;" id="after-save-icon">&#10004;&#65039;</div>
+    <div style="font-size:56px;margin-bottom:14px;" id="after-save-icon">&#10004;&#65039;</div>
     <div class="section-title" id="after-save-msg">Entry saved!</div>
-    <p class="text-muted" style="margin-top:8px;margin-bottom:8px;" id="after-save-sub"></p>
-    <div id="after-save-sync" style="margin-bottom:16px;"></div>
-    <!-- ICS download card shown only when due date set -->
-    <div id="after-save-ics" class="hidden" style="margin-bottom:16px;">
-      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:16px;text-align:left;">
-        <div style="font-size:13px;font-weight:700;color:#1D4ED8;margin-bottom:4px;">&#128197; Payment Due Reminder Ready</div>
-        <div style="font-size:12px;color:#3B82F6;margin-bottom:12px;" id="ics-due-info"></div>
+    <p class="text-muted" style="margin-top:6px;margin-bottom:6px;" id="after-save-sub"></p>
+    <div id="after-save-sync" style="margin-bottom:14px;"></div>
+    <div id="after-save-ics" class="hidden" style="margin-bottom:14px;">
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:11px;padding:14px;text-align:left;">
+        <div style="font-size:12px;font-weight:700;color:#1D4ED8;margin-bottom:3px;">&#128197; Payment Due Reminder Ready</div>
+        <div style="font-size:11px;color:#3B82F6;margin-bottom:10px;" id="ics-due-info"></div>
         <button class="btn btn-blue btn-sm" style="margin-bottom:0;" onclick="triggerICSDownload()">&#11015;&#65039; &nbsp;Download Calendar Reminder (.ics)</button>
-        <div style="font-size:11px;color:#93C5FD;margin-top:8px;">Tap the downloaded file to add to your phone calendar. Reminder fires 1 day before due date.</div>
+        <div style="font-size:10px;color:#93C5FD;margin-top:7px;">Tap the file to add to your phone calendar. Fires 1 day before.</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:0;">
@@ -457,19 +524,42 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- REPORTS -->
+<!-- ══ DUE SCREEN ══ -->
+<div class="screen" id="screen-due">
+  <div class="hdr">
+    <button class="hdr-back" onclick="goBack()">&#8249;</button>
+    <div class="hdr-title">Payment Due</div>
+    <button class="hdr-btn" onclick="syncAndRenderDue()">&#8635; Refresh</button>
+  </div>
+  <div class="content">
+    <div id="sync-status-due"></div>
+    <div id="due-admin-badge" class="hidden" style="background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;border-radius:9px;padding:8px 13px;font-size:12px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+      <span>&#128274;</span> Admin Mode &mdash; You can mark payments as paid
+    </div>
+    <div id="due-readonly-badge" class="hidden" style="background:#F8FAFC;border:1px solid var(--border);border-radius:9px;padding:8px 13px;font-size:12px;color:var(--muted);margin-bottom:10px;">
+      &#128274; Read-only &mdash; Only Tejas Pathak can mark payments as paid
+    </div>
+    <div id="due-overdue-section"></div>
+    <div id="due-upcoming-section"></div>
+    <div id="due-empty" class="hidden">
+      <div class="empty"><div class="empty-icon">&#127881;</div><h3>All clear!</h3><p>No overdue or upcoming payments</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REPORTS ══ -->
 <div class="screen" id="screen-reports">
   <div class="hdr">
     <button class="hdr-back" onclick="goBack()">&#8249;</button>
     <div class="hdr-title">Records</div>
-    <button class="hdr-btn" onclick="toggleFilterPanel()">Filter</button>
+    <button class="hdr-btn" onclick="toggleFilterPanel()">&#9776; Filter</button>
   </div>
   <div class="content">
     <div id="sync-status-reports"></div>
     <div class="filter-panel" id="filter-panel">
       <div class="filter-row">
-        <div class="field"><label>From Date</label><input type="date" id="filter-from"/></div>
-        <div class="field"><label>To Date</label><input type="date" id="filter-to"/></div>
+        <div class="field"><label>From</label><input type="date" id="filter-from"/></div>
+        <div class="field"><label>To</label><input type="date" id="filter-to"/></div>
       </div>
       <div class="field">
         <label>Type</label>
@@ -494,11 +584,11 @@ input[type=file]{display:none;}
       <div class="filter-chip" onclick="setDocFilter(this,'invoice')">Invoices</div>
       <div class="filter-chip" onclick="setDocFilter(this,'voucher')">Vouchers</div>
     </div>
-    <div id="reports-list"></div>
+    <div id="reports-list" class="rec-list"></div>
   </div>
 </div>
 
-<!-- MASTER -->
+<!-- ══ MASTER ══ -->
 <div class="screen" id="screen-master">
   <div class="hdr">
     <button class="hdr-back" onclick="goBack()">&#8249;</button>
@@ -517,19 +607,19 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- SEND MODAL -->
+<!-- ══ SEND MODAL ══ -->
 <div class="modal-overlay" id="send-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">Upload &amp; Send Report</div>
-    <div class="modal-sub">Review today&apos;s entries then send the email report</div>
-    <div style="margin-bottom:20px;">
+    <div class="modal-sub">Review today&apos;s entries then send</div>
+    <div style="margin-bottom:18px;">
       <div class="card-label">Today&apos;s Unsent Entries</div>
       <div id="send-entries-list"></div>
     </div>
     <hr class="divider"/>
-    <div style="margin-bottom:20px;">
-      <div class="card-label">Send Report To</div>
+    <div style="margin-bottom:18px;">
+      <div class="card-label">Send To</div>
       <div class="email-check"><input type="checkbox" id="em1" checked/><label for="em1">accounts@innotekproducts.com</label></div>
       <div class="email-check"><input type="checkbox" id="em2" checked/><label for="em2">ceo@innotekproducts.com</label></div>
       <div class="email-check"><input type="checkbox" id="em3" checked/><label for="em3">business@innotekproducts.com</label></div>
@@ -543,104 +633,161 @@ input[type=file]{display:none;}
 </div>
 
 <div id="toast"></div>
-</div><!-- #app -->
+</div>
 
 <script>
-/* ── STORAGE ── */
-const LS={get:k=>{try{return JSON.parse(localStorage.getItem(k));}catch{return null;}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+// ══════════════════════════════════════════════════════════════
+//  CONFIGURATION — update this one line when you redeploy script
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx604OvD680m-CSBdCNquBZSizXzTJmaW-2eBF5cyT-JBCaFYjdJ8qjYiTldlzzsWC_/exec';
 
-/* ── STATE ── */
-let state={
-  user:LS.get('dms_user')||null,
-  suppliers:LS.get('dms_suppliers')||[],
-  entries:LS.get('dms_entries')||[],
-  screenStack:[],
-  docFilter:'all',
-  filters:{},
-  fileData:{inv:null,vou:null},
-  lastSavedEntry:null,
+// Admin credentials (protected by PIN in app — PIN check is client-side for UX)
+const ADMIN_EMAIL = 'ceo@innotekproducts.com';
+const ADMIN_NAME  = 'Tejas Pathak';
+const ADMIN_PIN   = '1218';
+
+// ── STORAGE ──
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; }},
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
 };
-function saveLocal(){LS.set('dms_suppliers',state.suppliers);LS.set('dms_entries',state.entries);}
 
-/* ── NAV ── */
-function goTo(id,push=true){
-  const cur=document.querySelector('.screen.active');
-  if(cur&&push)state.screenStack.push(cur.id);
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+// ── STATE ──
+let state = {
+  user:         LS.get('dms_user')      || null,
+  suppliers:    LS.get('dms_suppliers') || [],
+  entries:      LS.get('dms_entries')   || [],
+  screenStack:  [],
+  docFilter:    'all',
+  filters:      {},
+  fileData:     { inv: null, vou: null },
+  lastSavedEntry: null,
+  isAdmin:      false,
+  pinPendingSetup: false,
+};
+
+function saveLocal() {
+  LS.set('dms_suppliers', state.suppliers);
+  LS.set('dms_entries',   state.entries);
+}
+
+// ── NAVIGATION ──
+function goTo(id, push=true) {
+  const cur = document.querySelector('.screen.active');
+  if (cur && push) state.screenStack.push(cur.id);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
-  if(id==='screen-home')updateHomeStats();
-  if(id==='screen-reports')renderReports();
-  if(id==='screen-master')renderMaster();
+  if (id === 'screen-home')    { updateHomeStats(); }
+  if (id === 'screen-reports') { renderReports(); }
+  if (id === 'screen-master')  { renderMaster(); }
+  if (id === 'screen-due')     { renderDue(); }
 }
-function goBack(){
-  if(state.screenStack.length)goTo(state.screenStack.pop(),false);
-  else goTo('screen-home',false);
+function goBack() {
+  if (state.screenStack.length) goTo(state.screenStack.pop(), false);
+  else goTo('screen-home', false);
 }
-function openReports(){goTo('screen-reports');syncFromSheets('sync-status-reports');}
+function openReports() { goTo('screen-reports'); syncFromSheets('sync-status-reports'); }
 
-/* ── SETUP ── */
-async function testConnection(){
-  const url=document.getElementById('setup-script-url').value.trim();
-  if(!url){showSyncBanner('fail','Enter the Apps Script URL first','setup-test-result');return;}
-  showSyncBanner('syncing','<span class="spin">\u21bb</span>\u00a0 Testing connection\u2026','setup-test-result');
-  try{
-    const body=JSON.stringify({action:'ping'});
-    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body,redirect:'follow'});
-    const text=await res.text();
-    const data=JSON.parse(text);
-    if(data.ok!==false){
-      showSyncBanner('ok','\u2705 Connection successful! Script is reachable.','setup-test-result');
-    } else {
-      showSyncBanner('fail','\u274c Script returned error: '+(data.error||'unknown'),'setup-test-result');
-    }
-  }catch(err){
-    showSyncBanner('fail','\u274c Could not reach script: '+err.message,'setup-test-result');
+// ── SETUP & PIN ──
+function isAdminAccount(name, email) {
+  return email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase() &&
+         name.trim().toLowerCase()  === ADMIN_NAME.toLowerCase();
+}
+
+function completeSetup() {
+  const name   = document.getElementById('setup-name').value.trim();
+  const email  = document.getElementById('setup-email').value.trim();
+  const device = document.getElementById('setup-device').value.trim();
+  const errEl  = document.getElementById('setup-error');
+  if (!name || !email || !device) { errEl.textContent = 'Please fill all fields.'; return; }
+  errEl.textContent = '';
+
+  if (isAdminAccount(name, email)) {
+    // Store pending data and show PIN modal
+    state.pinPendingSetup = { name, email, device };
+    document.getElementById('pin-input').value = '';
+    document.getElementById('pin-error').textContent = '';
+    document.getElementById('pin-modal').classList.add('open');
+  } else {
+    finaliseSetup(name, email, device, false);
   }
 }
-function completeSetup(){
-  const name=document.getElementById('setup-name').value.trim();
-  const email=document.getElementById('setup-email').value.trim();
-  const device=document.getElementById('setup-device').value.trim();
-  const scriptUrl=document.getElementById('setup-script-url').value.trim();
-  if(!name||!email||!device||!scriptUrl){showToast('Please fill all fields','error');return;}
-  state.user={name,email,device,scriptUrl};
-  LS.set('dms_user',state.user);
-  showToast('Welcome, '+name+'!','success');
-  goTo('screen-home',false);
+
+function onPinInput() {
+  const v = document.getElementById('pin-input').value;
+  if (v.length === 4) submitPin();
+}
+
+function submitPin() {
+  const pin = document.getElementById('pin-input').value;
+  const errEl = document.getElementById('pin-error');
+  if (pin !== ADMIN_PIN) {
+    errEl.textContent = 'Incorrect PIN. Access denied.';
+    document.getElementById('pin-input').value = '';
+    setTimeout(() => { errEl.textContent = ''; }, 3000);
+    return;
+  }
+  // PIN correct
+  document.getElementById('pin-modal').classList.remove('open');
+  if (state.pinPendingSetup) {
+    const { name, email, device } = state.pinPendingSetup;
+    state.pinPendingSetup = false;
+    finaliseSetup(name, email, device, true);
+  } else {
+    // Re-auth for existing admin session
+    state.isAdmin = true;
+    renderDue();
+  }
+}
+
+function cancelPin() {
+  document.getElementById('pin-modal').classList.remove('open');
+  state.pinPendingSetup = false;
+}
+
+function finaliseSetup(name, email, device, isAdmin) {
+  state.user    = { name, email, device };
+  state.isAdmin = isAdmin;
+  LS.set('dms_user', state.user);
+  LS.set('dms_is_admin', isAdmin);
+  showToast('Welcome, ' + name + '!', 'success');
+  goTo('screen-home', false);
   syncFromSheets('sync-status-home');
   loadSuppliers();
 }
 
-/* ── STATS ── */
-function todayStr(){return new Date().toISOString().slice(0,10);}
-function updateHomeStats(){
-  const t=todayStr();
-  document.getElementById('home-user-label').textContent=state.user?state.user.name+' \u00b7 '+state.user.device:'Welcome back';
-  document.getElementById('stat-today').textContent=state.entries.filter(e=>e.date===t).length;
-  document.getElementById('stat-unsent').textContent=state.entries.filter(e=>!e.sent&&e.date===t).length;
-  document.getElementById('stat-total').textContent=state.entries.length;
-  const dl=document.getElementById('drive-open-link');
-  if(state.user?.driveUrl)dl.href=state.user.driveUrl;
+// ── STATS ──
+function todayStr() { return new Date().toISOString().slice(0,10); }
+
+function updateHomeStats() {
+  const t = todayStr();
+  if (!state.user) return;
+  document.getElementById('home-user-label').textContent = state.user.name + ' \u00b7 ' + state.user.device;
+  document.getElementById('stat-today').textContent  = state.entries.filter(e => e.date === t).length;
+  document.getElementById('stat-unsent').textContent = state.entries.filter(e => !e.sent && e.date === t).length;
+  document.getElementById('stat-total').textContent  = state.entries.length;
+  const dl = document.getElementById('drive-open-link');
+  if (state.user.driveUrl) dl.href = state.user.driveUrl;
+  // Due badge
+  const overdue = state.entries.filter(e => e.dueDate && e.dueDate < t && !e.paid);
+  const badge = document.getElementById('due-badge');
+  if (overdue.length) { badge.textContent = overdue.length; badge.classList.remove('hidden'); }
+  else badge.classList.add('hidden');
 }
 
-/* ── APPS SCRIPT BRIDGE  v3 ── */
-// Core POST — uses no-cors compatible approach that works on Android Chrome
+// ══════════════════════════════════════════════════════════════
+//  APPS SCRIPT BRIDGE
+// ══════════════════════════════════════════════════════════════
 async function callScript(payload, timeoutMs) {
-  if(!state.user?.scriptUrl) return {ok:false, error:'No script URL configured'};
   timeoutMs = timeoutMs || 20000;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    // Use a form POST so Android Chrome handles the Apps Script redirect correctly
-    const form = new FormData();
-    form.append('payload', JSON.stringify(payload));
-    // Apps Script only accepts POST with text/plain or application/x-www-form-urlencoded
-    // We use URL-encoded so the redirect is followed and CORS headers are preserved
-    const body = JSON.stringify(payload);
-    const res = await fetch(state.user.scriptUrl, {
+    const body = 'payload=' + encodeURIComponent(JSON.stringify(payload));
+    const res = await fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body,
       redirect: 'follow',
       signal: controller.signal,
@@ -651,345 +798,421 @@ async function callScript(payload, timeoutMs) {
     catch { return { ok: true, raw: text }; }
   } catch(err) {
     clearTimeout(timer);
-    if(err.name === 'AbortError') return { ok: false, error: 'Request timed out — check your internet connection' };
+    if (err.name === 'AbortError') return { ok: false, error: 'Request timed out' };
     return { ok: false, error: err.message };
   }
 }
 
-// Test connection — ping the script before doing real work
-async function pingScript() {
-  const result = await callScript({ action: 'ping' }, 8000);
-  return result.ok !== false;
-}
-
-// Save entry row — fast, no file
 async function syncEntryToCloud(entry) {
   showSyncBanner('syncing', '<span class="spin">\u21bb</span>\u00a0 Saving to Google Sheets\u2026', 'after-save-sync');
-  // Strip out base64 file data — we upload the file separately
   const entryForSheet = Object.assign({}, entry);
   delete entryForSheet.fileBase64;
   delete entryForSheet.fileMime;
   const result = await callScript({ action: 'addEntry', entry: entryForSheet });
-  if(result.ok !== false) {
+  if (result.ok !== false) {
     entry.synced = true;
-    if(result.driveFolder) { state.user.driveUrl = result.driveFolder; LS.set('dms_user', state.user); }
+    if (result.driveFolder) { state.user.driveUrl = result.driveFolder; LS.set('dms_user', state.user); }
     saveLocal();
     showSyncBanner('ok', '\u2705 Saved to Google Sheets', 'after-save-sync');
     updateHomeStats();
-    // Upload file separately after row is saved
-    if(entry.fileBase64 && entry.fileName) {
-      uploadFileToCloud(entry);
-    }
+    if (entry.fileBase64 && entry.fileName) uploadFileToCloud(entry);
   } else {
-    showSyncBanner('fail', '\u26a0\ufe0f ' + (result.error||'Could not reach server') + ' \u2014 will retry on next open', 'after-save-sync');
+    showSyncBanner('fail', '\u26a0\ufe0f ' + (result.error||'Could not reach server'), 'after-save-sync');
   }
 }
 
-// Upload file as a separate call so large files don't block the row save
 async function uploadFileToCloud(entry) {
   showSyncBanner('syncing', '<span class="spin">\u21bb</span>\u00a0 Uploading file to Drive\u2026', 'after-save-sync');
   const result = await callScript({
-    action: 'uploadFile',
-    entryId: entry.id,
-    fileName: entry.fileName,
-    fileBase64: entry.fileBase64,
+    action: 'uploadFile', entryId: entry.id,
+    fileName: entry.fileName, fileBase64: entry.fileBase64,
     fileMime: entry.fileMime || 'application/octet-stream',
-  }, 60000); // 60s timeout for file uploads
-  if(result.ok !== false) {
+  }, 60000);
+  if (result.ok !== false) {
     entry.driveUrl = result.driveUrl || '';
-    if(result.driveFolder) { state.user.driveUrl = result.driveFolder; LS.set('dms_user', state.user); }
+    if (result.driveFolder) { state.user.driveUrl = result.driveFolder; LS.set('dms_user', state.user); }
     saveLocal();
-    showSyncBanner('ok', '\u2705 File uploaded to Google Drive \u2713', 'after-save-sync');
+    showSyncBanner('ok', '\u2705 File uploaded to Google Drive', 'after-save-sync');
     updateHomeStats();
-    if(document.getElementById('screen-reports').classList.contains('active')) renderReports();
   } else {
-    showSyncBanner('fail', '\u26a0\ufe0f File upload failed: ' + (result.error||'unknown error'), 'after-save-sync');
+    showSyncBanner('fail', '\u26a0\ufe0f File upload failed: ' + (result.error||'unknown'), 'after-save-sync');
   }
 }
 
 async function syncFromSheets(bannerId) {
-  if(!state.user?.scriptUrl) return;
-  showSyncBanner('syncing', '<span class="spin">\u21bb</span>\u00a0 Loading latest records\u2026', bannerId);
+  showSyncBanner('syncing', '<span class="spin">\u21bb</span>\u00a0 Loading records\u2026', bannerId);
   const result = await callScript({ action: 'getEntries' });
-  if(result.ok !== false && Array.isArray(result.entries)) {
+  if (result.ok !== false && Array.isArray(result.entries)) {
     const localIds = new Set(state.entries.map(e => e.id));
-    let added = 0;
-    result.entries.forEach(re => { if(!localIds.has(re.id)) { state.entries.push(re); added++; }});
+    result.entries.forEach(re => { if (!localIds.has(re.id)) state.entries.push(re); });
     const serverIds = new Set(result.entries.map(e => e.id));
-    state.entries.forEach(e => { if(serverIds.has(e.id)) e.synced = true; });
-    if(added) saveLocal();
+    // Sync paid status from server
+    result.entries.forEach(re => {
+      const local = state.entries.find(e => e.id === re.id);
+      if (local) { local.synced = true; if (re.paid) local.paid = true; }
+    });
+    saveLocal();
     showSyncBanner('ok', '\u2705 ' + result.entries.length + ' records loaded', bannerId);
     updateHomeStats();
-    if(document.getElementById('screen-reports').classList.contains('active')) renderReports();
+    if (document.getElementById('screen-reports').classList.contains('active')) renderReports();
+    if (document.getElementById('screen-due').classList.contains('active')) renderDue();
   } else {
-    showSyncBanner('fail', '\u26a0\ufe0f Could not load records \u2014 showing local data', bannerId);
+    showSyncBanner('fail', '\u26a0\ufe0f Could not load \u2014 showing local data', bannerId);
   }
 }
 
 async function loadSuppliers() {
-  if(!state.user?.scriptUrl) return;
   const result = await callScript({ action: 'getSuppliers' });
-  if(result.ok !== false && Array.isArray(result.suppliers) && result.suppliers.length) {
+  if (result.ok !== false && Array.isArray(result.suppliers) && result.suppliers.length) {
     state.suppliers = result.suppliers; saveLocal(); renderMaster();
   }
 }
+async function syncSuppliers() { await callScript({ action: 'setSuppliers', suppliers: state.suppliers }); }
+async function syncAndRenderDue() { await syncFromSheets('sync-status-due'); renderDue(); }
 
-async function syncSuppliers() {
-  await callScript({ action: 'setSuppliers', suppliers: state.suppliers });
+async function markPaid(entryId, paid) {
+  const entry = state.entries.find(e => e.id === entryId);
+  if (!entry) return;
+  entry.paid = paid;
+  saveLocal();
+  renderDue();
+  updateHomeStats();
+  const result = await callScript({ action: 'markPaid', entryId, paid });
+  if (result.ok === false) showToast('Sync error \u2014 status saved locally', 'warning');
+  else showToast(paid ? 'Marked as Paid \u2713' : 'Marked as Unpaid', 'success');
 }
 
-// Retry unsynced entries with a small delay between each so we don't flood
 async function retrySyncPending() {
   const pending = state.entries.filter(e => !e.synced);
-  if(!pending.length) return;
-  for(const e of pending) {
-    await new Promise(r => setTimeout(r, 500));
-    await syncEntryToCloud(e);
-  }
-}
-function showSyncBanner(type,html,targetId){
-  const el=document.getElementById(targetId);if(!el)return;
-  el.innerHTML='<div class="sync-banner '+type+'">'+html+'</div>';
-  if(type!=='syncing')setTimeout(()=>{if(el)el.innerHTML='';},4500);
+  for (const e of pending) { await new Promise(r => setTimeout(r, 500)); await syncEntryToCloud(e); }
 }
 
-/* ── DUE DATE LOGIC ── */
-function onDueDateChange(p){
-  const val=document.getElementById(p+'-due-date').value;
-  const bar=document.getElementById(p+'-due-alert');
-  const sub=document.getElementById(p+'-due-alert-sub');
-  if(!val){
-    bar.classList.add('no-date');
-    sub.textContent='Select a due date first';
+function showSyncBanner(type, html, targetId) {
+  const el = document.getElementById(targetId); if (!el) return;
+  el.innerHTML = '<div class="sync-banner ' + type + '">' + html + '</div>';
+  if (type !== 'syncing') setTimeout(() => { if(el) el.innerHTML = ''; }, 4000);
+}
+
+// ── DUE SCREEN ──
+function renderDue() {
+  const today    = todayStr();
+  const isAdmin  = state.isAdmin;
+
+  // Show/hide admin badge
+  document.getElementById('due-admin-badge').classList.toggle('hidden', !isAdmin);
+  document.getElementById('due-readonly-badge').classList.toggle('hidden', isAdmin);
+
+  const withDue  = state.entries.filter(e => e.dueDate && !e.paid);
+  const overdue  = withDue.filter(e => e.dueDate < today).sort((a,b) => a.dueDate.localeCompare(b.dueDate));
+  const upcoming = withDue.filter(e => e.dueDate >= today).sort((a,b) => a.dueDate.localeCompare(b.dueDate));
+  const paidList = state.entries.filter(e => e.dueDate && e.paid);
+
+  const empty = document.getElementById('due-empty');
+  if (!overdue.length && !upcoming.length) { empty.classList.remove('hidden'); }
+  else empty.classList.add('hidden');
+
+  document.getElementById('due-overdue-section').innerHTML = overdue.length ? buildDueSection('OVERDUE', overdue, '#EF4444', isAdmin) : '';
+  document.getElementById('due-upcoming-section').innerHTML = upcoming.length ? buildDueSection('UPCOMING', upcoming, '#7C3AED', isAdmin) : '';
+}
+
+function buildDueSection(title, entries, color, isAdmin) {
+  const items = entries.map(e => buildDueCell(e, isAdmin)).join('');
+  return '<div class="due-section-hdr">' +
+    '<span style="color:' + color + ';">' + title + '</span>' +
+    '<span class="count" style="background:' + color + '20;color:' + color + ';">' + entries.length + '</span>' +
+    '</div>' +
+    '<div class="rec-list" style="margin-bottom:14px;">' + items + '</div>';
+}
+
+function buildDueCell(e, isAdmin) {
+  const isInv  = e.type === 'invoice';
+  const who    = isInv ? (e.supplier||'—') : (e.person||'—');
+  const today  = todayStr();
+  const overdue = e.dueDate < today;
+  const dueLabel = overdue
+    ? '<span class="rec-pill overdue">\u26a0\ufe0f Overdue: ' + e.dueDate + '</span>'
+    : '<span class="rec-pill due-up">\ud83d\udcc5 Due: ' + e.dueDate + '</span>';
+  const paidBtn = isAdmin
+    ? '<button class="paid-toggle mark-paid" onclick="markPaid(\'' + e.id + '\',true)">Mark Paid</button>'
+    : '';
+  return '<div class="rec-cell' + (isInv?'':' voucher') + (overdue?' overdue':'') + '">' +
+    '<div class="rec-row1">' +
+      '<span class="rec-name">' + who + '</span>' +
+      '<span class="rec-amount">\u20b9' + fmtAmt(e.amount) + '</span>' +
+    '</div>' +
+    '<div class="rec-row2">' +
+      '<span class="rec-tag ' + (isInv?'inv':'vou') + '">' + (isInv?'INV':'VOU') + '</span>' +
+      '<span class="rec-meta">' + e.date + '</span>' +
+      (e.itype ? '<span class="rec-meta">\u00b7 ' + e.itype + '</span>' : '') +
+      (e.about ? '<span class="rec-about">\u00b7 ' + e.about + '</span>' : '') +
+      dueLabel +
+      paidBtn +
+    '</div>' +
+  '</div>';
+}
+
+// Paid items section (show recent paid at bottom)
+function renderPaidSection(paidList) {
+  if (!paidList.length) return '';
+  const items = paidList.slice(-5).map(e => {
+    const who = e.type === 'invoice' ? (e.supplier||'—') : (e.person||'—');
+    return '<div class="rec-cell paid">' +
+      '<div class="rec-row1"><span class="rec-name">' + who + '</span><span class="rec-amount">\u20b9' + fmtAmt(e.amount) + '</span></div>' +
+      '<div class="rec-row2"><span class="rec-pill paid-pill">\u2713 Paid</span><span class="rec-meta">' + e.dueDate + '</span>' +
+        (state.isAdmin ? '<button class="paid-toggle mark-unpaid" onclick="markPaid(\'' + e.id + '\',false)">Undo</button>' : '') +
+      '</div></div>';
+  }).join('');
+  return '<div class="due-section-hdr"><span style="color:var(--green);">RECENTLY PAID</span></div><div class="rec-list" style="margin-bottom:14px;">' + items + '</div>';
+}
+
+// ── REPORTS ──
+function setDocFilter(el, val) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active'); state.docFilter = val; renderReports();
+}
+function toggleFilterPanel() { document.getElementById('filter-panel').classList.toggle('open'); }
+function applyFilters() {
+  state.filters = {
+    from:     document.getElementById('filter-from').value,
+    to:       document.getElementById('filter-to').value,
+    type:     document.getElementById('filter-type').value,
+    supplier: document.getElementById('filter-supplier').value.trim().toLowerCase(),
+    person:   document.getElementById('filter-person').value.trim().toLowerCase(),
+  };
+  document.getElementById('filter-panel').classList.remove('open'); renderReports();
+}
+function clearFilters() {
+  state.filters = {};
+  ['filter-from','filter-to','filter-supplier','filter-person'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('filter-type').value = ''; renderReports();
+}
+
+const _entryMap = {};
+function _storeEntry(e) { _entryMap[e.id] = e; return e.id; }
+function icsFromId(id) { const e = _entryMap[id]; if (e) triggerICSBlob(e); }
+
+function renderReports() {
+  let list = [...state.entries].sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
+  if (state.docFilter !== 'all') list = list.filter(e => e.type === state.docFilter);
+  const f = state.filters;
+  if (f.from)     list = list.filter(e => e.date >= f.from);
+  if (f.to)       list = list.filter(e => e.date <= f.to);
+  if (f.type)     list = list.filter(e => e.itype === f.type);
+  if (f.supplier) list = list.filter(e => (e.supplier||'').toLowerCase().includes(f.supplier));
+  if (f.person)   list = list.filter(e => (e.person||'').toLowerCase().includes(f.person));
+
+  const c = document.getElementById('reports-list');
+  if (!list.length) {
+    c.innerHTML = '<div class="empty"><div class="empty-icon">\ud83d\udcad</div><h3>No records</h3><p>Try adjusting your filters</p></div>';
     return;
   }
-  bar.classList.remove('no-date');
-  const d=new Date(val);
-  const dayBefore=new Date(d);dayBefore.setDate(d.getDate()-1);
-  const fmt=d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-  const fmtB=dayBefore.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-  sub.textContent='Reminder on '+fmtB+' (1 day before '+fmt+')';
+  c.innerHTML = list.map(e => {
+    const isInv  = e.type === 'invoice';
+    const who    = isInv ? (e.supplier||'—') : (e.person||'—');
+    const today  = todayStr();
+    const safeId = _storeEntry(e);
+    const duePill = e.dueDate
+      ? (e.paid ? '<span class="rec-pill paid-pill">\u2713 Paid</span>'
+          : e.dueDate < today ? '<span class="rec-pill overdue">\u26a0 OD</span>'
+          : e.dueDate === today ? '<span class="rec-pill due-today">\u23f0 Today</span>'
+          : '<span class="rec-pill due-up">\ud83d\udcc5 ' + e.dueDate.slice(5) + '</span>')
+      : '';
+    const driveBtn = e.driveUrl ? '<a class="rec-drive-btn" href="' + e.driveUrl + '" target="_blank">\u2197 File</a>' : '';
+    const icsBtn   = e.dueDate && !e.paid ? '<span class="rec-cal-btn" onclick="icsFromId(\'' + safeId + '\')">\ud83d\udcc5</span>' : '';
+    return '<div class="rec-cell' + (isInv?'':' voucher') + (e.paid?' paid':'') + '">' +
+      '<div class="rec-row1">' +
+        '<span class="rec-name">' + who + (e.fileName?' \ud83d\udcce':'') + '</span>' +
+        '<span class="rec-amount">\u20b9' + fmtAmt(e.amount) + '</span>' +
+      '</div>' +
+      '<div class="rec-row2">' +
+        '<span class="rec-tag ' + (isInv?'inv':'vou') + '">' + (isInv?'INV':'VOU') + '</span>' +
+        '<span class="rec-meta">' + e.date + '</span>' +
+        (e.itype ? '<span class="rec-meta">\u00b7 ' + e.itype + '</span>' : '') +
+        (e.about ? '<span class="rec-about">' + e.about + '</span>' : '') +
+        '<span class="rec-pill ' + (e.synced?'synced':'local') + '">' + (e.synced?'\u2601':'\u23f3') + '</span>' +
+        duePill + driveBtn + icsBtn +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
-/* ── ICS GENERATION ── */
-function pad(n){return String(n).padStart(2,'0');}
-function toICSDate(dateStr){
-  // dateStr = "YYYY-MM-DD"
-  return dateStr.replace(/-/g,'');
-}
-function makeUID(){return Date.now().toString(36)+'@docmgmt';}
-function escICS(s){return (s||'').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');}
+function fmtAmt(n) { return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
-function buildICS(entry){
-  const dueDate=entry.dueDate; // YYYY-MM-DD
-  if(!dueDate)return null;
-
-  // Reminder day = 1 day before
-  const dueParts=dueDate.split('-').map(Number);
-  const alertDay=new Date(dueParts[0],dueParts[1]-1,dueParts[2]);
-  alertDay.setDate(alertDay.getDate()-1);
-  const alertStr=alertDay.getFullYear()+''+pad(alertDay.getMonth()+1)+''+pad(alertDay.getDate());
-
-  const who=entry.supplier||entry.person||'—';
-  const type=entry.type==='invoice'?'Invoice':'Voucher';
-  const summary=escICS('PAYMENT DUE: '+type+' | '+who+' | \u20b9'+fmtAmt(entry.amount));
-  const desc=escICS(
-    type+' payment due today.\n'+
-    'Supplier/Person: '+who+'\n'+
-    'Amount: \u20b9'+fmtAmt(entry.amount)+'\n'+
-    'Category: '+(entry.itype||'')+'\n'+
-    (entry.about?'About: '+entry.about+'\n':'')+
-    'Recorded by: '+(entry.submittedBy||'')+' on '+entry.date
-  );
-
-  // Attendees
-  const calEmails=[
-    'ceo@innotekproducts.com',
-    'accounts@innotekproducts.com',
-    'accounts.finance@unitycpl.com',
-  ];
-  if(state.user?.email)calEmails.push(state.user.email);
-  const uniqueEmails=[...new Set(calEmails)];
-  const attendeeLines=uniqueEmails.map(e=>'ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:mailto:'+e).join('\r\n');
-
-  const now=new Date();
-  const dtstamp=now.getFullYear()+''+pad(now.getMonth()+1)+''+pad(now.getDate())+'T'+pad(now.getHours())+''+pad(now.getMinutes())+''+pad(now.getSeconds())+'Z';
-
-  const ics=[
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//DocMgmtSystem//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:REQUEST',
-    'BEGIN:VEVENT',
-    'UID:'+makeUID(),
-    'DTSTAMP:'+dtstamp,
-    'DTSTART;VALUE=DATE:'+toICSDate(dueDate),
-    'DTEND;VALUE=DATE:'+toICSDate(dueDate),
-    'SUMMARY:'+summary,
-    'DESCRIPTION:'+desc,
-    attendeeLines,
-    'BEGIN:VALARM',
-    'TRIGGER;VALUE=DATE-TIME:'+alertStr+'T090000Z',
-    'ACTION:DISPLAY',
-    'DESCRIPTION:Payment due tomorrow \u2014 '+who+' \u20b9'+fmtAmt(entry.amount),
-    'END:VALARM',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n');
-
-  return ics;
-}
-
-// Called from the alert bar on the form
-function downloadICS(p){
-  const dueDate=document.getElementById(p+'-due-date').value;
-  if(!dueDate){showToast('Set a due date first','warning');return;}
-  // Build a temp entry preview for ICS
-  const who=p==='inv'
-    ? (document.getElementById('inv-supplier').value.trim()||'Unnamed Supplier')
-    : (document.getElementById('vou-person').value||'Unnamed Person');
-  const amount=parseFloat(document.getElementById(p+'-amount').value)||0;
-  const itype=getSelectedType(p);
-  const about=document.getElementById(p+'-about').value.trim();
-  const tempEntry={type:p==='inv'?'invoice':'voucher',supplier:p==='inv'?who:'',person:p==='vou'?who:'',amount,itype,about,dueDate,submittedBy:state.user?.name||'',date:todayStr()};
-  triggerICSBlob(tempEntry);
-}
-
-// Called from after-save screen
-function triggerICSDownload(){
-  if(state.lastSavedEntry)triggerICSBlob(state.lastSavedEntry);
-}
-
-function triggerICSBlob(entry){
-  const ics=buildICS(entry);
-  if(!ics){showToast('No due date set','warning');return;}
-  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const who=entry.supplier||entry.person||'payment';
-  a.href=url;
-  a.download='PaymentDue_'+who.replace(/\s+/g,'_')+'_'+entry.dueDate+'.ics';
-  document.body.appendChild(a);a.click();
-  setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
-  showToast('Calendar file downloaded \u2713 \u2014 tap it to add to your calendar','success');
-}
-
-/* ── ENTRY FLOW ── */
-function startEntry(type){
-  state.fileData[type==='invoice'?'inv':'vou']=null;
+// ── ENTRY FLOW ──
+function startEntry(type) {
+  state.fileData[type==='invoice'?'inv':'vou'] = null;
   clearForm(type==='invoice'?'inv':'vou');
   goTo('screen-'+type);
 }
-function clearForm(p){
-  if(p==='inv'){document.getElementById('inv-supplier').value='';document.getElementById('inv-amount').value='';document.getElementById('inv-about').value='';document.getElementById('inv-due-date').value='';}
-  else{document.getElementById('vou-person').value='';document.getElementById('vou-amount').value='';document.getElementById('vou-about').value='';document.getElementById('vou-due-date').value='';}
-  document.querySelectorAll('#'+p+'-type-pills .type-pill').forEach(x=>x.classList.remove('selected'));
-  // reset due alert bar
-  const bar=document.getElementById(p+'-due-alert');
-  const sub=document.getElementById(p+'-due-alert-sub');
-  if(bar)bar.classList.add('no-date');
-  if(sub)sub.textContent='Select a due date first';
-  cancelUpload(p);removeFile(p);
+function clearForm(p) {
+  if (p==='inv') {
+    document.getElementById('inv-supplier').value = '';
+    document.getElementById('inv-amount').value   = '';
+    document.getElementById('inv-about').value    = '';
+    document.getElementById('inv-due-date').value = '';
+  } else {
+    document.getElementById('vou-person').value   = '';
+    document.getElementById('vou-amount').value   = '';
+    document.getElementById('vou-about').value    = '';
+    document.getElementById('vou-due-date').value = '';
+  }
+  document.querySelectorAll('#'+p+'-type-pills .type-pill').forEach(x => x.classList.remove('selected'));
+  const bar = document.getElementById(p+'-due-alert');
+  const sub = document.getElementById(p+'-due-alert-sub');
+  if (bar) { bar.classList.add('no-date'); }
+  if (sub) sub.textContent = 'Select a due date first';
+  cancelUpload(p); removeFile(p);
 }
-function selectType(prefix,el){
-  document.querySelectorAll('#'+prefix+'-type-pills .type-pill').forEach(x=>x.classList.remove('selected'));
+function selectType(prefix, el) {
+  document.querySelectorAll('#'+prefix+'-type-pills .type-pill').forEach(x => x.classList.remove('selected'));
   el.classList.add('selected');
 }
-function getSelectedType(prefix){
-  const el=document.querySelector('#'+prefix+'-type-pills .type-pill.selected');
-  return el?el.textContent.trim():'';
+function getSelectedType(prefix) {
+  const el = document.querySelector('#'+prefix+'-type-pills .type-pill.selected');
+  return el ? el.textContent.trim() : '';
 }
 
-/* ── SAVE ── */
-async function saveEntry(type){
-  const p=type==='invoice'?'inv':'vou';
-  const btn=document.getElementById(p+'-save-btn');
-  btn.disabled=true;btn.textContent='Saving\u2026';
-  const entry={
-    id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),
-    type,date:todayStr(),
-    time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
-    device:state.user?.device||'Unknown',
-    submittedBy:state.user?.name||'',
-    sent:false,synced:false,
+// ── DUE DATE ──
+function onDueDateChange(p) {
+  const val = document.getElementById(p+'-due-date').value;
+  const bar = document.getElementById(p+'-due-alert');
+  const sub = document.getElementById(p+'-due-alert-sub');
+  if (!val) { bar.classList.add('no-date'); sub.textContent = 'Select a due date first'; return; }
+  bar.classList.remove('no-date');
+  const d = new Date(val); const db = new Date(d); db.setDate(d.getDate()-1);
+  const fmt  = d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  const fmtB = db.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  sub.textContent = 'Reminder on ' + fmtB + ' (1 day before ' + fmt + ')';
+}
+
+// ── ICS ──
+function pad(n) { return String(n).padStart(2,'0'); }
+function toICSDate(s) { return s.replace(/-/g,''); }
+function makeUID() { return Date.now().toString(36) + '@docmgmt'; }
+function escICS(s) { return (s||'').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;'); }
+
+function buildICS(entry) {
+  if (!entry.dueDate) return null;
+  const dueParts = entry.dueDate.split('-').map(Number);
+  const alertDay = new Date(dueParts[0], dueParts[1]-1, dueParts[2]);
+  alertDay.setDate(alertDay.getDate()-1);
+  const alertStr = alertDay.getFullYear()+pad(alertDay.getMonth()+1)+pad(alertDay.getDate());
+  const who    = entry.supplier || entry.person || '—';
+  const type   = entry.type === 'invoice' ? 'Invoice' : 'Voucher';
+  const summary = escICS('PAYMENT DUE: ' + type + ' | ' + who + ' | \u20b9' + fmtAmt(entry.amount));
+  const desc    = escICS(type+' payment due today.\nSupplier/Person: '+who+'\nAmount: \u20b9'+fmtAmt(entry.amount)+'\nCategory: '+(entry.itype||'')+(entry.about?'\nAbout: '+entry.about:'')+'\nRecorded by: '+(entry.submittedBy||'')+' on '+entry.date);
+  const emails  = [...new Set(['ceo@innotekproducts.com','accounts@innotekproducts.com','accounts.finance@unitycpl.com',state.user?.email||''].filter(Boolean))];
+  const attendees = emails.map(e => 'ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:mailto:'+e).join('\r\n');
+  const now = new Date();
+  const dtstamp = now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'T'+pad(now.getHours())+pad(now.getMinutes())+pad(now.getSeconds())+'Z';
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//DocMgmtSystem//EN','CALSCALE:GREGORIAN','METHOD:REQUEST',
+    'BEGIN:VEVENT','UID:'+makeUID(),'DTSTAMP:'+dtstamp,
+    'DTSTART;VALUE=DATE:'+toICSDate(entry.dueDate),'DTEND;VALUE=DATE:'+toICSDate(entry.dueDate),
+    'SUMMARY:'+summary,'DESCRIPTION:'+desc,attendees,
+    'BEGIN:VALARM','TRIGGER;VALUE=DATE-TIME:'+alertStr+'T090000Z','ACTION:DISPLAY',
+    'DESCRIPTION:Payment due tomorrow \u2014 '+who+' \u20b9'+fmtAmt(entry.amount),'END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+function downloadICS(p) {
+  const dueDate = document.getElementById(p+'-due-date').value;
+  if (!dueDate) { showToast('Set a due date first','warning'); return; }
+  const who    = p==='inv' ? (document.getElementById('inv-supplier').value.trim()||'Supplier') : (document.getElementById('vou-person').value||'Person');
+  const amount = parseFloat(document.getElementById(p+'-amount').value)||0;
+  const itype  = getSelectedType(p);
+  const about  = document.getElementById(p+'-about').value.trim();
+  const tmp    = { type:p==='inv'?'invoice':'voucher', supplier:p==='inv'?who:'', person:p==='vou'?who:'', amount, itype, about, dueDate, submittedBy:state.user?.name||'', date:todayStr() };
+  triggerICSBlob(tmp);
+}
+function triggerICSDownload() { if (state.lastSavedEntry) triggerICSBlob(state.lastSavedEntry); }
+function triggerICSBlob(entry) {
+  const ics = buildICS(entry); if (!ics) { showToast('No due date set','warning'); return; }
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const who  = (entry.supplier||entry.person||'payment').replace(/\s+/g,'_');
+  a.href = url; a.download = 'PaymentDue_'+who+'_'+entry.dueDate+'.ics';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  showToast('Calendar file downloaded \u2713','success');
+}
+
+// ── SAVE ENTRY ──
+async function saveEntry(type) {
+  const p   = type==='invoice'?'inv':'vou';
+  const btn = document.getElementById(p+'-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving\u2026';
+  const entry = {
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+    type, date:todayStr(),
+    time: new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    device: state.user?.device||'Unknown',
+    submittedBy: state.user?.name||'',
+    sent:false, synced:false, paid:false,
   };
-  if(type==='invoice'){
-    const supplier=document.getElementById('inv-supplier').value.trim();
-    const amount=document.getElementById('inv-amount').value.trim();
-    const itype=getSelectedType('inv');
-    const about=document.getElementById('inv-about').value.trim();
-    const dueDate=document.getElementById('inv-due-date').value;
-    if(!supplier||!amount||!itype){showToast('Fill Supplier, Amount and Type','error');btn.disabled=false;btn.textContent='Save Invoice';return;}
-    Object.assign(entry,{supplier,amount:parseFloat(amount),itype,about,dueDate});
-  }else{
-    const person=document.getElementById('vou-person').value;
-    const amount=document.getElementById('vou-amount').value.trim();
-    const itype=getSelectedType('vou');
-    const about=document.getElementById('vou-about').value.trim();
-    const dueDate=document.getElementById('vou-due-date').value;
-    if(!person||!amount||!itype){showToast('Fill Person, Amount and Type','error');btn.disabled=false;btn.textContent='Save Voucher';return;}
-    Object.assign(entry,{person,amount:parseFloat(amount),itype,about,dueDate});
+  if (type==='invoice') {
+    const supplier = document.getElementById('inv-supplier').value.trim();
+    const amount   = document.getElementById('inv-amount').value.trim();
+    const itype    = getSelectedType('inv');
+    const about    = document.getElementById('inv-about').value.trim();
+    const dueDate  = document.getElementById('inv-due-date').value;
+    if (!supplier||!amount||!itype) { showToast('Fill Supplier, Amount and Type','error'); btn.disabled=false; btn.textContent='Save Invoice'; return; }
+    Object.assign(entry, {supplier, amount:parseFloat(amount), itype, about, dueDate});
+  } else {
+    const person  = document.getElementById('vou-person').value;
+    const amount  = document.getElementById('vou-amount').value.trim();
+    const itype   = getSelectedType('vou');
+    const about   = document.getElementById('vou-about').value.trim();
+    const dueDate = document.getElementById('vou-due-date').value;
+    if (!person||!amount||!itype) { showToast('Fill Person, Amount and Type','error'); btn.disabled=false; btn.textContent='Save Voucher'; return; }
+    Object.assign(entry, {person, amount:parseFloat(amount), itype, about, dueDate});
   }
-  const fd=state.fileData[p];
-  if(fd){entry.fileName=fd.name;entry.fileBase64=fd.dataUrl;entry.fileMime=fd.mime||'';}
-  state.entries.push(entry);
-  state.lastSavedEntry=entry;
-  saveLocal();
-
-  // after-save screen
-  document.getElementById('after-save-icon').textContent=type==='invoice'?'\ud83e\uddfe':'\ud83d\udcdd';
-  document.getElementById('after-save-msg').textContent=(type==='invoice'?'Invoice':'Voucher')+' saved!';
-  document.getElementById('after-save-sub').textContent=entry.date+' \u00b7 '+entry.time+' \u00b7 '+entry.device;
-  document.getElementById('after-save-sync').innerHTML='';
-
-  // show ICS card if due date set
-  const icsCard=document.getElementById('after-save-ics');
-  const icsDueInfo=document.getElementById('ics-due-info');
-  if(entry.dueDate){
-    const d=new Date(entry.dueDate);
-    const db=new Date(d);db.setDate(d.getDate()-1);
-    icsDueInfo.textContent='Due: '+d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+
-      ' \u2014 Reminder: '+db.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  const fd = state.fileData[p];
+  if (fd) { entry.fileName=fd.name; entry.fileBase64=fd.dataUrl; entry.fileMime=fd.mime||''; }
+  state.entries.push(entry); state.lastSavedEntry = entry; saveLocal();
+  document.getElementById('after-save-icon').textContent = type==='invoice'?'\ud83e\uddfe':'\ud83d\udcdd';
+  document.getElementById('after-save-msg').textContent  = (type==='invoice'?'Invoice':'Voucher') + ' saved!';
+  document.getElementById('after-save-sub').textContent  = entry.date + ' \u00b7 ' + entry.time + ' \u00b7 ' + entry.device;
+  document.getElementById('after-save-sync').innerHTML   = '';
+  const icsCard = document.getElementById('after-save-ics');
+  if (entry.dueDate) {
+    const d=new Date(entry.dueDate); const db=new Date(d); db.setDate(d.getDate()-1);
+    document.getElementById('ics-due-info').textContent = 'Due: '+d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+' \u2014 Reminder: '+db.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
     icsCard.classList.remove('hidden');
-  }else{
-    icsCard.classList.add('hidden');
-  }
-
-  btn.disabled=false;btn.textContent=type==='invoice'?'Save Invoice':'Save Voucher';
+  } else { icsCard.classList.add('hidden'); }
+  btn.disabled=false; btn.textContent=type==='invoice'?'Save Invoice':'Save Voucher';
   goTo('screen-after-save');
   syncEntryToCloud(entry);
 }
 
-/* ── FILE ── */
+// ── FILE ──
 function triggerFileChoice(p){document.getElementById(p+'-upload-area').classList.add('hidden');document.getElementById(p+'-upload-btns').classList.remove('hidden');}
 function cancelUpload(p){document.getElementById(p+'-upload-area').classList.remove('hidden');document.getElementById(p+'-upload-btns').classList.add('hidden');}
 function capturePhoto(p){document.getElementById(p+'-file-cam').click();}
 function choosePhoto(p){document.getElementById(p+'-file-gallery').click();}
 function chooseFile(p){document.getElementById(p+'-file-doc').click();}
-function handleFile(input,p){
-  const file=input.files[0];if(!file)return;
+function handleFile(input, p) {
+  const file = input.files[0]; if (!file) return;
   cancelUpload(p);
-  const reader=new FileReader();
-  reader.onload=e=>{
-    state.fileData[p]={name:file.name,dataUrl:e.target.result,mime:file.type};
-    const preview=document.getElementById(p+'-file-preview');
-    const thumb=document.getElementById(p+'-file-thumb');
-    document.getElementById(p+'-file-name').textContent=file.name;
-    if(file.type.startsWith('image/')){thumb.src=e.target.result;thumb.style.display='block';}
-    else thumb.style.display='none';
+  const reader = new FileReader();
+  reader.onload = e => {
+    state.fileData[p] = {name:file.name, dataUrl:e.target.result, mime:file.type};
+    const preview = document.getElementById(p+'-file-preview');
+    const thumb   = document.getElementById(p+'-file-thumb');
+    document.getElementById(p+'-file-name').textContent = file.name;
+    if (file.type.startsWith('image/')) { thumb.src = e.target.result; thumb.style.display = 'block'; }
+    else thumb.style.display = 'none';
     preview.classList.remove('hidden');
   };
   reader.readAsDataURL(file);
 }
-function removeFile(p){
-  state.fileData[p]=null;
+function removeFile(p) {
+  state.fileData[p] = null;
   document.getElementById(p+'-file-preview').classList.add('hidden');
-  const th=document.getElementById(p+'-file-thumb');if(th)th.style.display='none';
-  ['cam','gallery','doc'].forEach(t=>{const el=document.getElementById(p+'-file-'+t);if(el)el.value='';});
+  const th = document.getElementById(p+'-file-thumb'); if(th) th.style.display='none';
+  ['cam','gallery','doc'].forEach(t => { const el=document.getElementById(p+'-file-'+t); if(el) el.value=''; });
 }
 
-/* ── SUPPLIER SEARCH ── */
+// ── SUPPLIER SEARCH ──
 let hideTimer;
 function showSuppliers(){clearTimeout(hideTimer);filterSuppliers(document.getElementById('inv-supplier').value);}
 function hideSuppliers(){hideTimer=setTimeout(()=>document.getElementById('supplier-dropdown').classList.remove('open'),200);}
@@ -997,121 +1220,42 @@ function filterSuppliers(q){
   const dd=document.getElementById('supplier-dropdown');
   const res=q?state.suppliers.filter(s=>s.toLowerCase().includes(q.toLowerCase())):state.suppliers;
   if(!res.length){dd.classList.remove('open');return;}
-  dd.innerHTML=res.map(s=>{
-    const hi=q?s.replace(new RegExp('('+q+')','gi'),'<mark>$1</mark>'):s;
-    return '<div class="supplier-option" onmousedown="selectSupplier(\''+s.replace(/'/g,"\\'")+'\')">'+hi+'</div>';
-  }).join('');
+  dd.innerHTML=res.map(s=>{const hi=q?s.replace(new RegExp('('+q+')','gi'),'<mark>$1</mark>'):s;return '<div class="supplier-option" onmousedown="selectSupplier(\''+s.replace(/'/g,"\\'")+'\')">'+hi+'</div>';}).join('');
   dd.classList.add('open');
 }
 function selectSupplier(name){document.getElementById('inv-supplier').value=name;document.getElementById('supplier-dropdown').classList.remove('open');}
 
-/* ── MASTER ── */
+// ── MASTER ──
 function addSupplier(){
-  const inp=document.getElementById('new-supplier-input');
-  const val=inp.value.trim();
+  const inp=document.getElementById('new-supplier-input');const val=inp.value.trim();
   if(!val){showToast('Enter a supplier name','error');return;}
   if(state.suppliers.includes(val)){showToast('Already exists','error');return;}
   state.suppliers.push(val);state.suppliers.sort((a,b)=>a.localeCompare(b));
-  saveLocal();syncSuppliers();inp.value='';renderMaster();
-  showToast('Supplier added \u2713','success');
+  saveLocal();syncSuppliers();inp.value='';renderMaster();showToast('Supplier added \u2713','success');
 }
 function deleteSupplier(name){
   if(!confirm('Delete "'+name+'"?'))return;
-  state.suppliers=state.suppliers.filter(s=>s!==name);
-  saveLocal();syncSuppliers();renderMaster();showToast('Removed');
+  state.suppliers=state.suppliers.filter(s=>s!==name);saveLocal();syncSuppliers();renderMaster();showToast('Removed');
 }
 function renderMaster(){
   document.getElementById('supplier-count').textContent=state.suppliers.length;
   const ul=document.getElementById('master-supplier-list');
-  if(!state.suppliers.length){ul.innerHTML='<li style="padding:20px 0;text-align:center;color:var(--muted);font-size:13px;">No suppliers yet \u2014 add one above.</li>';return;}
+  if(!state.suppliers.length){ul.innerHTML='<li style="padding:16px 0;text-align:center;color:var(--muted);font-size:12px;">No suppliers yet \u2014 add one above.</li>';return;}
   ul.innerHTML=state.suppliers.map(s=>'<li class="master-item"><span>'+s+'</span><span class="master-item-del" onclick="deleteSupplier(\''+s.replace(/'/g,"\\'")+'\')">&#128465;</span></li>').join('');
 }
 
-/* ── REPORTS ── */
-function setDocFilter(el,val){document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');state.docFilter=val;renderReports();}
-function toggleFilterPanel(){document.getElementById('filter-panel').classList.toggle('open');}
-function applyFilters(){
-  state.filters={from:document.getElementById('filter-from').value,to:document.getElementById('filter-to').value,type:document.getElementById('filter-type').value,supplier:document.getElementById('filter-supplier').value.trim().toLowerCase(),person:document.getElementById('filter-person').value.trim().toLowerCase()};
-  document.getElementById('filter-panel').classList.remove('open');renderReports();
-}
-function clearFilters(){state.filters={};['filter-from','filter-to','filter-supplier','filter-person'].forEach(id=>document.getElementById(id).value='');document.getElementById('filter-type').value='';renderReports();}
-
-function duePill(dueDate){
-  if(!dueDate)return '';
-  const today=todayStr();
-  const d=new Date(dueDate);
-  const fmt=d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
-  if(dueDate<today)return '<span class="due-pill overdue">\u26a0\ufe0f Overdue: '+fmt+'</span>';
-  if(dueDate===today)return '<span class="due-pill today">\u23f0 Due Today: '+fmt+'</span>';
-  return '<span class="due-pill upcoming">\ud83d\udcc5 Due: '+fmt+'</span>';
-}
-
-// Entry lookup map — safe way to reference entries from onclick in Android
-// Avoids the JSON.stringify-in-onclick bug that crashes on special characters
-const _entryMap = {};
-function _storeEntry(e){ _entryMap[e.id] = e; return e.id; }
-function icsFromId(id){ const e=_entryMap[id]; if(e)triggerICSBlob(e); }
-
-function renderReports(){
-  let list=[...state.entries].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-  if(state.docFilter!=='all')list=list.filter(e=>e.type===state.docFilter);
-  const f=state.filters;
-  if(f.from)list=list.filter(e=>e.date>=f.from);
-  if(f.to)list=list.filter(e=>e.date<=f.to);
-  if(f.type)list=list.filter(e=>e.itype===f.type);
-  if(f.supplier)list=list.filter(e=>(e.supplier||'').toLowerCase().includes(f.supplier));
-  if(f.person)list=list.filter(e=>(e.person||'').toLowerCase().includes(f.person));
-  const c=document.getElementById('reports-list');
-  if(!list.length){
-    c.innerHTML='<div class="empty"><div class="empty-icon">&#128509;</div><h3>No records found</h3><p>Try adjusting your filters</p></div>';
-    return;
-  }
-  c.innerHTML=list.map(e=>{
-    const isInv=e.type==='invoice';
-    const who=isInv?(e.supplier||'\u2014'):(e.person||'\u2014');
-    const overdue=e.dueDate&&e.dueDate<todayStr();
-    const driveBtn=e.driveUrl
-      ?'<a href="'+e.driveUrl+'" target="_blank" style="font-size:11px;color:#3730A3;text-decoration:none;">\u2197 View File</a>'
-      :'';
-    // Safe ICS button — stores entry in map, references by id only
-    const safeId=_storeEntry(e);
-    const icsBtn=e.dueDate
-      ?'<span style="font-size:11px;color:#2563EB;cursor:pointer;padding:2px 6px;background:#EFF6FF;border-radius:5px;" onclick="icsFromId(\'' + safeId + '\')">&#128197; Cal</span>'
-      :'';
-    return '<div class="entry-card'+(isInv?'':' voucher')+(overdue?' overdue':'')+'">'+
-      '<div class="entry-card-top">'+
-        '<span class="entry-tag '+(isInv?'inv':'vou')+'">'+(isInv?'INVOICE':'VOUCHER')+'</span>'+
-        '<span class="entry-card-amount">\u20b9'+fmtAmt(e.amount)+'</span>'+
-      '</div>'+
-      '<div class="entry-card-name">'+who+(e.fileName?' \ud83d\udcce':'')+'</div>'+
-      '<div class="entry-card-sub">'+e.date+' \u00b7 '+e.time+' \u00b7 '+(e.device||'')+'</div>'+
-      (e.about?'<div class="entry-card-about">'+e.about+'</div>':'')+
-      '<div class="entry-card-meta">'+
-        '<span class="meta-pill">'+(e.itype||'')+'</span>'+
-        (e.synced
-          ?'<span class="meta-pill" style="background:#F0FDF4;color:#166534;">\u2601 Synced</span>'
-          :'<span class="meta-pill" style="background:#FEF3C7;color:#92400E;">\u23f3 Local</span>')+
-        (e.sent?'<span class="meta-pill" style="background:#EEF2FF;color:#3730A3;">\u2709 Sent</span>':'')+
-        duePill(e.dueDate)+
-        (driveBtn?' '+driveBtn:'')+
-        (icsBtn?' '+icsBtn:'')+
-      '</div></div>';
-  }).join('');
-}
-function fmtAmt(n){return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
-
-/* ── SEND ── */
+// ── SEND MODAL ──
 function openSendModal(){
   const unsent=state.entries.filter(e=>!e.sent&&e.date===todayStr());
   const el=document.getElementById('send-entries-list');
-  if(!unsent.length){el.innerHTML='<p class="text-muted" style="padding:12px 0;">No unsent entries for today.</p>';}
+  if(!unsent.length){el.innerHTML='<p class="text-muted" style="padding:10px 0;">No unsent entries for today.</p>';}
   else{
     el.innerHTML=unsent.map(e=>{
-      const who=e.type==='invoice'?(e.supplier||'\u2014'):(e.person||'\u2014');
+      const who=e.type==='invoice'?(e.supplier||'—'):(e.person||'—');
       const due=e.dueDate?' \u00b7 Due: '+e.dueDate:'';
       return '<div class="send-entry"><input type="checkbox" id="se_'+e.id+'" data-id="'+e.id+'" checked/>'+
         '<div class="send-entry-info"><strong>'+who+'</strong>'+
-        '<span>'+e.type.toUpperCase()+' \u00b7 '+e.itype+' \u00b7 '+e.time+due+'</span>'+
+        '<span>'+e.type.toUpperCase()+' \u00b7 '+(e.itype||'')+' \u00b7 '+e.time+due+'</span>'+
         (e.about?'<span style="font-style:italic;">'+e.about+'</span>':'')+
         '</div><span class="send-entry-amt">\u20b9'+fmtAmt(e.amount)+'</span></div>';
     }).join('');
@@ -1130,7 +1274,7 @@ function sendReport(){
   if(document.getElementById('em3').checked)emails.push('business@innotekproducts.com');
   if(document.getElementById('em4').checked)emails.push('accounts.finance@unitycpl.com');
   if(!emails.length){showToast('Select at least one recipient','error');return;}
-  const subject=encodeURIComponent('Doc Mgmt Report \u2014 '+todayStr()+' ('+( state.user?.device||'')+')');
+  const subject=encodeURIComponent('Doc Mgmt Report \u2014 '+todayStr()+' ('+(state.user?.device||'')+')');
   const body=encodeURIComponent(buildEmailBody(toSend));
   window.location.href='mailto:'+emails.join(',')+'?subject='+subject+'&body='+body;
   toSend.forEach(e=>{e.sent=true;});saveLocal();closeSendModal();updateHomeStats();
@@ -1139,60 +1283,43 @@ function sendReport(){
 function buildEmailBody(entries){
   const u=state.user;
   const d=new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  let b='DOC MGMT SYSTEM \u2014 DAILY REPORT\n';
-  b+='Date      : '+d+'\nFrom      : '+(u?.name||'\u2014')+' ('+(u?.device||'\u2014')+')\nEmail     : '+(u?.email||'\u2014')+'\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n';
+  let b='DOC MGMT SYSTEM \u2014 DAILY REPORT\nDate: '+d+'\nFrom: '+(u?.name||'')+'  Device: '+(u?.device||'')+'\n'+'='.repeat(42)+'\n\n';
   const inv=entries.filter(e=>e.type==='invoice');
   const vou=entries.filter(e=>e.type==='voucher');
   if(inv.length){
-    b+='INVOICES ('+inv.length+')\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n';
-    inv.forEach((e,i)=>{
-      b+=(i+1)+'. '+(e.supplier||'\u2014')+'\n';
-      b+='   Amount   : \u20b9'+fmtAmt(e.amount)+'\n';
-      b+='   Type     : '+e.itype+'\n';
-      if(e.about)b+='   About    : '+e.about+'\n';
-      if(e.dueDate)b+='   Due By   : '+e.dueDate+'\n';
-      if(e.fileName)b+='   File     : '+e.fileName+'\n';
-      if(e.driveUrl)b+='   Drive    : '+e.driveUrl+'\n';
-      b+='   Time     : '+e.time+'\n\n';
-    });
-    b+='Invoice Total : \u20b9'+fmtAmt(inv.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n\n';
+    b+='INVOICES ('+inv.length+')\n'+'-'.repeat(42)+'\n';
+    inv.forEach((e,i)=>{b+=(i+1)+'. '+(e.supplier||'—')+'\n   \u20b9'+fmtAmt(e.amount)+' | '+e.itype+(e.about?' | '+e.about:'')+(e.dueDate?' | Due: '+e.dueDate:'')+'\n';});
+    b+='\nInvoice Total: \u20b9'+fmtAmt(inv.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n\n';
   }
   if(vou.length){
-    b+='VOUCHERS ('+vou.length+')\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n';
-    vou.forEach((e,i)=>{
-      b+=(i+1)+'. '+(e.person||'\u2014')+'\n';
-      b+='   Amount   : \u20b9'+fmtAmt(e.amount)+'\n';
-      b+='   Type     : '+e.itype+'\n';
-      if(e.about)b+='   About    : '+e.about+'\n';
-      if(e.dueDate)b+='   Due By   : '+e.dueDate+'\n';
-      if(e.fileName)b+='   File     : '+e.fileName+'\n';
-      if(e.driveUrl)b+='   Drive    : '+e.driveUrl+'\n';
-      b+='   Time     : '+e.time+'\n\n';
-    });
-    b+='Voucher Total : \u20b9'+fmtAmt(vou.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n\n';
+    b+='VOUCHERS ('+vou.length+')\n'+'-'.repeat(42)+'\n';
+    vou.forEach((e,i)=>{b+=(i+1)+'. '+(e.person||'—')+'\n   \u20b9'+fmtAmt(e.amount)+' | '+e.itype+(e.about?' | '+e.about:'')+(e.dueDate?' | Due: '+e.dueDate:'')+'\n';});
+    b+='\nVoucher Total: \u20b9'+fmtAmt(vou.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n\n';
   }
-  b+='\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nGRAND TOTAL : \u20b9'+fmtAmt(entries.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n[Generated by Doc Mgmt System]\n';
+  b+='='.repeat(42)+'\nGRAND TOTAL: \u20b9'+fmtAmt(entries.reduce((s,e)=>s+(parseFloat(e.amount)||0),0))+'\n[Doc Mgmt System]\n';
   return b;
 }
 
-/* ── TOAST ── */
+// ── TOAST ──
 let toastTimer;
 function showToast(msg,type=''){
   const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.className='',3200);
 }
 
-/* ── INIT ── */
+// ── INIT ──
 document.getElementById('send-modal').addEventListener('click',function(e){if(e.target===this)closeSendModal();});
+document.getElementById('pin-modal').addEventListener('click',function(e){if(e.target===this)cancelPin();});
 window.addEventListener('popstate',()=>{if(state.screenStack.length)goBack();});
 
 async function init(){
   if(state.user){
-    goTo('screen-home',false);updateHomeStats();
+    state.isAdmin = LS.get('dms_is_admin') || false;
+    goTo('screen-home',false); updateHomeStats();
     await syncFromSheets('sync-status-home');
     await loadSuppliers();
     retrySyncPending();
-  }else{
+  } else {
     goTo('screen-setup',false);
   }
 }
